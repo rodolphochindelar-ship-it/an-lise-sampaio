@@ -1,0 +1,286 @@
+
+<style>
+*{box-sizing:border-box}
+.page{display:none}
+.page.active{display:block}
+.sec-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;padding-bottom:8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px 16px}
+.metric-label{font-size:12px;color:var(--color-text-secondary);margin:0 0 4px}
+.metric-value{font-size:22px;font-weight:500;color:var(--color-text-primary);margin:0}
+.metric-sub{font-size:11px;color:var(--color-text-tertiary);margin:4px 0 0}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px}
+.badge{display:inline-block;font-size:11px;font-weight:500;padding:2px 8px;border-radius:var(--border-radius-md)}
+.b-red{background:#FCEBEB;color:#791F1F}
+.b-amber{background:#FAEEDA;color:#633806}
+.b-blue{background:#E6F1FB;color:#0C447C}
+.b-green{background:#EAF3DE;color:#27500A}
+.b-purple{background:#EEEDFE;color:#3C3489}
+.b-teal{background:#E1F5EE;color:#085041}
+.b-gray{background:#F1EFE8;color:#444441}
+.rota-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.rota-row:last-child{border-bottom:none}
+.rota-name{color:var(--color-text-primary);flex:1}
+.rota-bar-wrap{flex:1;margin:0 10px;background:var(--color-border-tertiary);border-radius:2px;height:6px}
+.rota-bar{height:6px;border-radius:2px;background:#378ADD}
+.rota-count{font-size:12px;color:var(--color-text-secondary);min-width:50px;text-align:right}
+.feriado-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.feriado-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px}
+.feriado-date{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin:0 0 2px}
+.feriado-label{font-size:12px;color:var(--color-text-primary);font-weight:500;margin:0 0 1px}
+.feriado-vol{font-size:11px;color:var(--color-text-tertiary);margin:0}
+.seg-bar{height:12px;border-radius:4px;margin:6px 0 2px}
+.strategy-item{padding:10px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.strategy-item:last-child{border-bottom:none}
+.strategy-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 3px}
+.strategy-desc{font-size:12px;color:var(--color-text-secondary);margin:0}
+.rrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.rrow:last-child{border-bottom:none}
+.rname{flex:1;color:var(--color-text-primary);min-width:0}
+.share-wrap{display:flex;align-items:center;gap:8px;min-width:210px}
+.bar-bg{flex:1;height:8px;background:var(--color-border-tertiary);border-radius:4px;overflow:hidden;display:flex}
+.share-pct{font-size:12px;font-weight:500;min-width:36px;text-align:right}
+.opp-item{padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.opp-item:last-child{border-bottom:none}
+.opp-name{font-size:13px;color:var(--color-text-primary);margin:0 0 2px}
+.opp-desc{font-size:12px;color:var(--color-text-secondary);margin:0}
+.nav-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+.nav-btn:hover{background:var(--color-background-secondary)}
+.nav-btn-primary{background:#185FA5;color:#fff;border-color:#185FA5}
+.nav-btn-primary:hover{background:#0C447C;border-color:#0C447C}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.topbar-title{font-size:16px;font-weight:500;color:var(--color-text-primary);margin:0}
+.topbar-sub{font-size:12px;color:var(--color-text-secondary);margin:2px 0 0}
+.tab-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);background:var(--color-background-secondary)}
+.tab-pill.active-tab{background:#E6F1FB;color:#0C447C;border-color:#B5D4F4}
+</style>
+
+<h2 class="sr-only">Dashboard Sampaio — visão geral e análise competitiva por rota</h2>
+
+<div style="padding:1rem 0 0">
+
+<div id="page-main" class="page active">
+  <div class="topbar">
+    <div>
+      <p class="topbar-title">Estudo Sampaio — Jan/2025 a Mai/2026</p>
+      <p class="topbar-sub">Perfil de passageiros, rotas e sazonalidade</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="tab-pill active-tab"><i class="ti ti-chart-bar" style="font-size:13px" aria-hidden="true"></i> Visão geral</span>
+      <button class="nav-btn nav-btn-primary" onclick="showPage('page-competitivo')">
+        <i class="ti ti-route" style="font-size:14px" aria-hidden="true"></i> Rota x empresa <i class="ti ti-arrow-right" style="font-size:13px" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Visão geral — Sampaio</p>
+    <div class="grid-4">
+      <div class="metric"><p class="metric-label">Passageiros únicos</p><p class="metric-value">501.750</p><p class="metric-sub">Jan/2025 – Mai/2026</p></div>
+      <div class="metric"><p class="metric-label">Total de viagens</p><p class="metric-value">613.326</p><p class="metric-sub">Média 1,22 por passageiro</p></div>
+      <div class="metric"><p class="metric-label">Com telefone</p><p class="metric-value">66%</p><p class="metric-sub">331.207 passageiros</p></div>
+      <div class="metric"><p class="metric-label">Sem contato</p><p class="metric-value" style="color:#A32D2D">34%</p><p class="metric-sub">170.492 invisíveis</p></div>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Segmentação de base</p>
+    <div class="grid-3">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:14px;font-weight:500">Ocasionais</span><span class="badge b-blue">1 viagem</span></div>
+        <p style="font-size:28px;font-weight:500;margin:0">89,2%</p>
+        <p style="font-size:12px;color:var(--color-text-secondary);margin:4px 0 8px">447.406 passageiros</p>
+        <div class="seg-bar" style="background:linear-gradient(90deg,#378ADD 89.2%,var(--color-border-tertiary) 89.2%)"></div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);margin:0">447.406 viagens geradas</p>
+      </div>
+      <div class="card" style="border:2px solid #B5D4F4">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:14px;font-weight:500">Frequentes</span><span class="badge b-purple">2–9 viagens</span></div>
+        <p style="font-size:28px;font-weight:500;margin:0">10,6%</p>
+        <p style="font-size:12px;color:var(--color-text-secondary);margin:4px 0 8px">53.064 passageiros</p>
+        <div class="seg-bar" style="background:linear-gradient(90deg,#7F77DD 10.6%,var(--color-border-tertiary) 10.6%)"></div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);margin:0">145.226 viagens geradas</p>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:14px;font-weight:500">Pendulares</span><span class="badge b-green">10+ viagens</span></div>
+        <p style="font-size:28px;font-weight:500;margin:0">0,3%</p>
+        <p style="font-size:12px;color:var(--color-text-secondary);margin:4px 0 8px">1.280 passageiros</p>
+        <div class="seg-bar" style="background:linear-gradient(90deg,#639922 0.3%,var(--color-border-tertiary) 0.3%)"></div>
+        <p style="font-size:11px;color:var(--color-text-tertiary);margin:0">20.694 viagens geradas</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Top 10 rotas por volume</p>
+    <div class="card">
+      <div class="rota-row"><span class="rota-name">RJ ↔ São José dos Campos - SP</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:100%"></div></div><span class="rota-count">87.792</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ Aparecida - SP</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:71%"></div></div><span class="rota-count">53.945</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ Taubaté - SP</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:62%"></div></div><span class="rota-count">45.544</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ Santos - SP</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:53%"></div></div><span class="rota-count">38.623</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ São Lourenço - MG</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:44%"></div></div><span class="rota-count">32.125</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ Mogi das Cruzes - SP</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:27%"></div></div><span class="rota-count">20.597</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ Pouso Alegre - MG</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:20%"></div></div><span class="rota-count">15.755</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ Varginha - MG</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:17%"></div></div><span class="rota-count">14.005</span></div>
+      <div class="rota-row"><span class="rota-name">RJ ↔ Lavras - MG</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:13%"></div></div><span class="rota-count">11.578</span></div>
+      <div class="rota-row"><span class="rota-name">SJC - SP ↔ Resende - RJ</span><div class="rota-bar-wrap"><div class="rota-bar" style="width:13%"></div></div><span class="rota-count">11.310</span></div>
+    </div>
+    <p style="font-size:12px;color:var(--color-text-tertiary);margin:8px 0 0">Corredor dominante: SP ↔ RJ (188k+188k) · RJ ↔ MG (62k+60k)</p>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Picos de viagem × feriados</p>
+    <div class="feriado-grid">
+      <div class="feriado-item"><p class="feriado-date">02–03/jan/25</p><p class="feriado-label">Retorno do Ano Novo</p><p class="feriado-vol">~1.680 viagens/dia</p></div>
+      <div class="feriado-item"><p class="feriado-date">28/fev/25</p><p class="feriado-label">Véspera de Carnaval</p><p class="feriado-vol">1.835 viagens — maior pico 2025</p></div>
+      <div class="feriado-item"><p class="feriado-date">17–21/abr/25</p><p class="feriado-label">Semana Santa + Tiradentes</p><p class="feriado-vol">~1.780 viagens/dia · Aparecida dominante</p></div>
+      <div class="feriado-item"><p class="feriado-date">12/out/25</p><p class="feriado-label">N. Sra. Aparecida + Dia das Crianças</p><p class="feriado-vol">1.524 viagens · rota Aparecida dispara</p></div>
+      <div class="feriado-item"><p class="feriado-date">23–30/dez/25</p><p class="feriado-label">Período Natalino</p><p class="feriado-vol">~1.750/dia por 8 dias seguidos</p></div>
+      <div class="feriado-item"><p class="feriado-date">02–05/jan/26</p><p class="feriado-label">Pós-Ano Novo 2026</p><p class="feriado-vol">Pico 1.794 · supera jan/2025</p></div>
+      <div class="feriado-item"><p class="feriado-date">13/fev/26</p><p class="feriado-label">Carnaval 2026</p><p class="feriado-vol">1.778 viagens</p></div>
+      <div class="feriado-item"><p class="feriado-date">03/mai/26</p><p class="feriado-label">Pós Dia do Trabalho</p><p class="feriado-vol">1.842 viagens — maior pico do período</p></div>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Comportamento semanal</p>
+    <div class="card" style="padding:16px">
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center">
+        <div><p style="font-size:11px;color:var(--color-text-secondary);margin:0 0 6px">Seg</p><div style="background:#B5D4F4;border-radius:4px;height:60px"></div><p style="font-size:11px;color:var(--color-text-tertiary);margin:4px 0 0">71.592</p></div>
+        <div><p style="font-size:11px;color:var(--color-text-secondary);margin:0 0 6px">Ter</p><div style="background:#B5D4F4;border-radius:4px;height:46px"></div><p style="font-size:11px;color:var(--color-text-tertiary);margin:4px 0 0">57.074</p></div>
+        <div><p style="font-size:11px;color:var(--color-text-secondary);margin:0 0 6px">Qua</p><div style="background:#B5D4F4;border-radius:4px;height:48px"></div><p style="font-size:11px;color:var(--color-text-tertiary);margin:4px 0 0">58.324</p></div>
+        <div><p style="font-size:11px;color:var(--color-text-secondary);margin:0 0 6px">Qui</p><div style="background:#85B7EB;border-radius:4px;height:56px"></div><p style="font-size:11px;color:var(--color-text-tertiary);margin:4px 0 0">67.582</p></div>
+        <div><p style="font-size:11px;color:var(--color-text-secondary);margin:0 0 6px">Sex</p><div style="background:#378ADD;border-radius:4px;height:72px"></div><p style="font-size:11px;color:var(--color-text-tertiary);margin:4px 0 0">85.029</p></div>
+        <div><p style="font-size:11px;color:var(--color-text-secondary);margin:0 0 6px">Sáb</p><div style="background:#85B7EB;border-radius:4px;height:58px"></div><p style="font-size:11px;color:var(--color-text-tertiary);margin:4px 0 0">69.810</p></div>
+        <div><p style="font-size:11px;color:var(--color-text-secondary);margin:0 0 6px">Dom</p><div style="background:#185FA5;border-radius:4px;height:80px"></div><p style="font-size:11px;font-weight:500;color:#185FA5;margin:4px 0 0">92.339</p></div>
+      </div>
+      <p style="font-size:11px;color:var(--color-text-tertiary);margin:12px 0 0">Domingo e sexta concentram 29% de todas as viagens</p>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Estratégias</p>
+    <div class="grid-2">
+      <div class="card">
+        <p style="font-size:13px;font-weight:500;margin:0 0 12px">Ações de ativação</p>
+        <div class="strategy-item"><p class="strategy-title"><span class="badge b-red" style="margin-right:6px">urgente</span>Capturar 34% sem contato</p><p class="strategy-desc">170k passageiros invisíveis. Ação no embarque/app para coleta de dado.</p></div>
+        <div class="strategy-item"><p class="strategy-title"><span class="badge b-amber" style="margin-right:6px">alto impacto</span>Reativar ocasionais</p><p class="strategy-desc">89% fez 1 viagem. Oferta direcionada 30–60 dias após a viagem.</p></div>
+        <div class="strategy-item"><p class="strategy-title"><span class="badge b-purple" style="margin-right:6px">fidelidade</span>Upgrade de frequentes</p><p class="strategy-desc">53k passageiros entre 2–9 viagens. Viva Fidelidade com meta de próxima viagem.</p></div>
+      </div>
+      <div class="card">
+        <p style="font-size:13px;font-weight:500;margin:0 0 12px">Rotas e sazonalidade</p>
+        <div class="strategy-item"><p class="strategy-title"><span class="badge b-blue" style="margin-right:6px">rota</span>Aprofundar RJ ↔ SJC e Aparecida</p><p class="strategy-desc">Maior rota (87k). Aparecida tem componente religioso — ação em outubro.</p></div>
+        <div class="strategy-item"><p class="strategy-title"><span class="badge b-green" style="margin-right:6px">sazonal</span>Campanhas pré-feriado</p><p class="strategy-desc">Semana Santa, Carnaval, Natal e Dia do Trabalho = janelas de +30% de volume.</p></div>
+        <div class="strategy-item"><p class="strategy-title"><span class="badge b-amber" style="margin-right:6px">novo mercado</span>Expandir corredor MG</p><p class="strategy-desc">São Lourenço, Pouso Alegre e Varginha crescendo. Turismo de saúde e lazer.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:8px 0 4px">
+    <button class="nav-btn nav-btn-primary" onclick="showPage('page-competitivo')" style="margin:auto">
+      <i class="ti ti-route" style="font-size:14px" aria-hidden="true"></i> Ver análise rota x empresa <i class="ti ti-arrow-right" style="font-size:13px" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<div id="page-competitivo" class="page">
+  <div class="topbar">
+    <div>
+      <p class="topbar-title">Rota x empresa — posição competitiva</p>
+      <p class="topbar-sub">Sampaio · Util · Rápido Federal · Brisa</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="tab-pill active-tab"><i class="ti ti-route" style="font-size:13px" aria-hidden="true"></i> Rota x empresa</span>
+      <button class="nav-btn" onclick="showPage('page-main')">
+        <i class="ti ti-arrow-left" style="font-size:13px" aria-hidden="true"></i> Voltar à visão geral
+      </button>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Visão geral competitiva</p>
+    <div class="grid-4">
+      <div class="metric"><p class="metric-label">Rotas disputadas</p><p class="metric-value">30</p><p class="metric-sub">Entre 2+ empresas do grupo</p></div>
+      <div class="metric"><p class="metric-label">Sampaio domina</p><p class="metric-value" style="color:#3B6D11">17 rotas</p><p class="metric-sub">Liderança ou dominância</p></div>
+      <div class="metric"><p class="metric-label">Território disputado</p><p class="metric-value" style="color:#BA7517">9 rotas</p><p class="metric-sub">Equilíbrio ou desvantagem</p></div>
+      <div class="metric"><p class="metric-label">Perda crítica / ausente</p><p class="metric-value" style="color:#A32D2D">4 rotas</p><p class="metric-sub">Share abaixo de 35%</p></div>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Mapa de batalha — todas as rotas disputadas</p>
+    <div class="card">
+      <div style="display:flex;gap:16px;font-size:11px;color:var(--color-text-secondary);margin-bottom:12px;flex-wrap:wrap">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#185FA5"></span>Sampaio</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#E24B4A"></span>Util</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#BA7517"></span>Rápido Federal</span>
+      </div>
+      <div class="rrow"><span class="rname"><span class="badge b-green" style="margin-right:6px">dominância</span>RJ ↔ Taubaté - SP</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:99.4%;background:#185FA5"></div><div style="height:8px;width:0.6%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">99,4%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">61.563</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-green" style="margin-right:6px">dominância</span>RJ ↔ São José dos Campos - SP</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:99.3%;background:#185FA5"></div><div style="height:8px;width:0.7%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">99,3%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">116.917</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-green" style="margin-right:6px">dominância</span>Mogi das Cruzes ↔ Resende - RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:95.7%;background:#185FA5"></div><div style="height:8px;width:4.3%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">95,7%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">3.011</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-green" style="margin-right:6px">dominância</span>Aparecida ↔ Resende - RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:96.2%;background:#185FA5"></div><div style="height:8px;width:3.8%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">96,2%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">11.179</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-green" style="margin-right:6px">dominância</span>Resende ↔ São José dos Campos</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:95%;background:#185FA5"></div><div style="height:8px;width:5%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">95,0%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">14.805</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-teal" style="margin-right:6px">liderança</span>Aparecida ↔ Volta Redonda - RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:83.3%;background:#185FA5"></div><div style="height:8px;width:16.7%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">83,3%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">8.088</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-teal" style="margin-right:6px">liderança</span>Barra Mansa ↔ Mogi das Cruzes - SP</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:88.8%;background:#185FA5"></div><div style="height:8px;width:11.2%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">88,8%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">1.509</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-teal" style="margin-right:6px">liderança</span>Barra Mansa ↔ Santos - SP</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:86%;background:#185FA5"></div><div style="height:8px;width:14%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">86,0%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">1.456</span></div>
+      <div class="rrow"><span class="rname"><span class="badge b-teal" style="margin-right:6px">liderança</span>SJC - SP ↔ Volta Redonda - RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:63.5%;background:#185FA5"></div><div style="height:8px;width:36.5%;background:#E24B4A"></div></div><span class="share-pct" style="color:#185FA5">63,5%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">8.020</span></div>
+      <div class="rrow" style="background:var(--color-background-secondary);border-radius:6px;padding:8px 10px;border-bottom:none;margin:3px 0"><span class="rname"><span class="badge b-amber" style="margin-right:6px">equilíbrio</span>RJ ↔ São Vicente - SP</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:50.9%;background:#185FA5"></div><div style="height:8px;width:49.1%;background:#E24B4A"></div></div><span class="share-pct" style="color:#BA7517">50,9%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">7.109</span></div>
+      <div class="rrow" style="background:var(--color-background-secondary);border-radius:6px;padding:8px 10px;border-bottom:none;margin:3px 0"><span class="rname"><span class="badge b-amber" style="margin-right:6px">equilíbrio</span>Cubatão ↔ Resende - RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:53.7%;background:#185FA5"></div><div style="height:8px;width:46.3%;background:#E24B4A"></div></div><span class="share-pct" style="color:#BA7517">53,7%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">559</span></div>
+      <div class="rrow" style="border-left:3px solid #E24B4A;padding-left:8px;border-radius:0"><span class="rname"><span class="badge b-amber" style="margin-right:6px">desvantagem</span>RJ ↔ Santos - SP</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:48.7%;background:#185FA5"></div><div style="height:8px;width:51.3%;background:#E24B4A"></div></div><span class="share-pct" style="color:#E24B4A">48,7%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">87.522</span></div>
+      <div class="rrow" style="border-left:3px solid #E24B4A;padding-left:8px;border-radius:0"><span class="rname"><span class="badge b-amber" style="margin-right:6px">desvantagem</span>Praia Grande ↔ RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:48%;background:#185FA5"></div><div style="height:8px;width:52%;background:#E24B4A"></div></div><span class="share-pct" style="color:#E24B4A">48,0%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">15.514</span></div>
+      <div class="rrow" style="border-left:3px solid #E24B4A;padding-left:8px;border-radius:0"><span class="rname"><span class="badge b-amber" style="margin-right:6px">desvantagem</span>Guarulhos ↔ Resende - RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:37.8%;background:#185FA5"></div><div style="height:8px;width:62.2%;background:#E24B4A"></div></div><span class="share-pct" style="color:#E24B4A">37,8%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">7.886</span></div>
+      <div class="rrow" style="border-left:4px solid #A32D2D;padding-left:8px;border-radius:0"><span class="rname"><span class="badge b-red" style="margin-right:6px">perda crítica</span>Guarulhos ↔ RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:21.1%;background:#185FA5"></div><div style="height:8px;width:78.9%;background:#E24B4A"></div></div><span class="share-pct" style="color:#A32D2D">21,1%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">38.165</span></div>
+      <div class="rrow" style="border-left:4px solid #A32D2D;padding-left:8px;border-radius:0"><span class="rname"><span class="badge b-red" style="margin-right:6px">perda crítica</span>Cubatão ↔ RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:29.1%;background:#185FA5"></div><div style="height:8px;width:70.9%;background:#E24B4A"></div></div><span class="share-pct" style="color:#A32D2D">29,1%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">2.348</span></div>
+      <div class="rrow" style="border-left:4px solid #A32D2D;padding-left:8px;border-radius:0"><span class="rname"><span class="badge b-red" style="margin-right:6px">perda crítica</span>Barbacena - MG ↔ RJ</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:1.1%;background:#185FA5"></div><div style="height:8px;width:86.5%;background:#E24B4A"></div><div style="height:8px;width:12.1%;background:#BA7517"></div></div><span class="share-pct" style="color:#A32D2D">1,1%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">58.420</span></div>
+      <div class="rrow" style="border-left:4px solid #791F1F;padding-left:8px;border-radius:0"><span class="rname"><span class="badge b-red" style="margin-right:6px">ausente</span>RJ ↔ Santos Dumont - MG</span><div class="share-wrap"><div class="bar-bg"><div style="height:8px;width:93.8%;background:#E24B4A"></div><div style="height:8px;width:6%;background:#BA7517"></div></div><span class="share-pct" style="color:#791F1F">0%</span></div><span style="font-size:11px;color:var(--color-text-tertiary);min-width:55px;text-align:right">3.968</span></div>
+    </div>
+  </div>
+
+  <div style="margin:0 0 2rem">
+    <p class="sec-title">Prioridades de ataque</p>
+    <div class="grid-2">
+      <div class="card" style="border:2px solid #F7C1C1">
+        <p style="font-size:13px;font-weight:500;margin:0 0 12px"><span class="badge b-red" style="margin-right:6px">1</span>Recuperar Guarulhos ↔ RJ</p>
+        <div class="opp-item"><p class="opp-name">38.165 viagens — Util tem 78,9%</p><p class="opp-desc">Passar de 21% para 40% = +7.300 viagens capturadas.</p></div>
+        <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Preço competitivo + pontos duplos para migração de rota no Viva Fidelidade.</p></div>
+      </div>
+      <div class="card" style="border:2px solid #F7C1C1">
+        <p style="font-size:13px;font-weight:500;margin:0 0 12px"><span class="badge b-red" style="margin-right:6px">2</span>Entrar em RJ ↔ Santos Dumont - MG</p>
+        <div class="opp-item"><p class="opp-name">3.968 viagens — Sampaio ausente</p><p class="opp-desc">Rota 100% Util + Rápido Federal. Destino em crescimento.</p></div>
+        <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Avaliar licença operacional. Se disponível, lançar com base RJ ↔ MG existente.</p></div>
+      </div>
+      <div class="card" style="border:2px solid #FAC775">
+        <p style="font-size:13px;font-weight:500;margin:0 0 12px"><span class="badge b-amber" style="margin-right:6px">3</span>Disputar RJ ↔ Santos - SP</p>
+        <div class="opp-item"><p class="opp-name">87.522 viagens — quase empate (48,7% vs 51,3%)</p><p class="opp-desc">Maior rota disputada. Ganhar 3 pontos = ~2.600 viagens.</p></div>
+        <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Campanha sazonal focada em litoral — verão e feriados costeiros.</p></div>
+      </div>
+      <div class="card" style="border:2px solid #FAC775">
+        <p style="font-size:13px;font-weight:500;margin:0 0 12px"><span class="badge b-amber" style="margin-right:6px">4</span>Investigar Barbacena - MG</p>
+        <div class="opp-item"><p class="opp-name">58.420 viagens — Sampaio tem 1,1%</p><p class="opp-desc">Alto volume, presença quase nula. Possível restrição operacional.</p></div>
+        <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Verificar licença e horários. Se há margem, direcionar base MG com oferta dedicada.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin:0 0 1rem">
+    <p class="sec-title">Rotas exclusivas da Util — expansão</p>
+    <div class="card">
+      <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 12px">23 rotas onde a Util atua e a Sampaio não tem passageiros registrados</p>
+      <div class="opp-item"><p class="opp-name"><span class="badge b-purple" style="margin-right:6px">3.721 viagens</span>RJ ↔ Santos Dumont - MG</p><p class="opp-desc">Maior oportunidade de entrada. Destino com perfil de saúde e turismo.</p></div>
+      <div class="opp-item"><p class="opp-name"><span class="badge b-purple" style="margin-right:6px">1.002 viagens</span>Barra da Tijuca (Via Parque) ↔ Santos - SP</p><p class="opp-desc">Ponto de embarque na Barra que a Sampaio não cobre. Nicho de alto poder aquisitivo.</p></div>
+      <div class="opp-item"><p class="opp-name"><span class="badge b-purple" style="margin-right:6px">555 viagens</span>RIO2 (Barra Olímpica) ↔ Santos - SP</p><p class="opp-desc">Junto com Via Parque = 1.557 viagens sem Sampaio na Barra.</p></div>
+      <div class="opp-item"><p class="opp-name"><span class="badge b-gray" style="margin-right:6px">359 + 228 viagens</span>Pontos da Barra ↔ Praia Grande / Guarulhos</p><p class="opp-desc">Extensões de rotas que a Sampaio já opera, mas a partir de terminais diferentes.</p></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  document.getElementById(id).classList.add('active');
+  window.scrollTo&&window.scrollTo(0,0);
+}
+</script>
