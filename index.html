@@ -7,426 +7,443 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface-alt:#f0efe9;--border:rgba(0,0,0,.08);--border-strong:rgba(0,0,0,.15);
+  --text-primary:#1a1917;--text-secondary:#6b6960;--text-tertiary:#9e9b92;
+  --blue:#185FA5;--blue-light:#e6f1fb;--blue-mid:#378ADD;
+  --red:#A32D2D;--red-light:#fcebeb;--red-mid:#E24B4A;
+  --amber:#854F0B;--amber-light:#faeeda;--amber-mid:#BA7517;
+  --green:#27500A;--green-light:#eaf3de;--green-mid:#639922;
+  --teal:#085041;--teal-light:#e1f5ee;
+  --purple:#3C3489;--purple-light:#eeedfe;--purple-mid:#7F77DD;
+  --gray-light:#f1efe8;--gray-mid:#5F5E5A;
+  --r-sm:6px;--r-md:10px;--r-lg:14px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --sh-md:0 4px 12px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.04);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.app{max-width:1100px;margin:0 auto;padding:32px 24px 64px}
 
-  :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --surface-alt: #f0efe9;
-    --border: rgba(0,0,0,0.08);
-    --border-strong: rgba(0,0,0,0.15);
-    --text-primary: #1a1917;
-    --text-secondary: #6b6960;
-    --text-tertiary: #9e9b92;
-    --blue: #185FA5;
-    --blue-light: #e6f1fb;
-    --blue-mid: #378ADD;
-    --red: #A32D2D;
-    --red-light: #fcebeb;
-    --red-mid: #E24B4A;
-    --amber: #854F0B;
-    --amber-light: #faeeda;
-    --amber-mid: #BA7517;
-    --green: #27500A;
-    --green-light: #eaf3de;
-    --green-mid: #639922;
-    --teal: #085041;
-    --teal-light: #e1f5ee;
-    --purple: #3C3489;
-    --purple-light: #eeedfe;
-    --gray-light: #f1efe8;
-    --gray-mid: #5F5E5A;
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
-    --radius-xl: 20px;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
-  }
+/* HEADER */
+.app-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border-strong);gap:16px;flex-wrap:wrap}
+.app-eyebrow{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:6px;font-family:'DM Mono',monospace}
+.app-title{font-size:26px;font-weight:600;color:var(--text-primary);line-height:1.2;letter-spacing:-0.02em}
+.app-subtitle{font-size:13px;color:var(--text-secondary);margin-top:4px}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    min-height: 100vh;
-    font-size: 14px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
+/* TABS */
+.nav-tabs{display:flex;gap:4px;background:var(--surface-alt);padding:4px;border-radius:var(--r-md);border:1px solid var(--border)}
+.nav-tab{display:flex;align-items:center;gap:7px;padding:8px 16px;font-size:13px;font-weight:500;border-radius:var(--r-sm);border:none;cursor:pointer;transition:all .18s;color:var(--text-secondary);background:transparent;white-space:nowrap}
+.nav-tab svg{width:15px;height:15px;opacity:.7}
+.nav-tab:hover{background:var(--surface);color:var(--text-primary)}
+.nav-tab.active{background:var(--surface);color:var(--text-primary);box-shadow:var(--sh-sm)}
 
-  .app { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+/* PAGES */
+.page{display:none;animation:fadeIn .22s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-  /* HEADER */
-  .app-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border-strong);
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .app-header-left {}
-  .app-eyebrow {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-    margin-bottom: 6px;
-    font-family: 'DM Mono', monospace;
-  }
-  .app-title {
-    font-size: 26px;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-  }
-  .app-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+/* TIME FILTER */
+.time-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.tf-btn{padding:6px 14px;font-size:12px;font-weight:500;border-radius:20px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-secondary);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.tf-btn:hover{border-color:var(--blue-mid);color:var(--blue)}
+.tf-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.tf-label{font-size:12px;color:var(--text-tertiary);display:flex;align-items:center;padding-right:4px}
 
-  /* NAV TABS */
-  .nav-tabs {
-    display: flex;
-    gap: 4px;
-    background: var(--surface-alt);
-    padding: 4px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-  }
-  .nav-tab {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: var(--radius-sm);
-    border: none;
-    cursor: pointer;
-    transition: all .18s ease;
-    color: var(--text-secondary);
-    background: transparent;
-    white-space: nowrap;
-  }
-  .nav-tab svg { width: 15px; height: 15px; opacity: .7; }
-  .nav-tab:hover { background: var(--surface); color: var(--text-primary); }
-  .nav-tab.active {
-    background: var(--surface);
-    color: var(--text-primary);
-    box-shadow: var(--shadow-sm);
-  }
+/* SECTION */
+.section{margin-bottom:28px}
+.section-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-tertiary);font-family:'DM Mono',monospace;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
 
-  /* PAGES */
-  .page { display: none; animation: fadeIn .22s ease; }
-  .page.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+/* GRIDS */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:720px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3,.grid-2{grid-template-columns:1fr}}
 
-  /* SECTION */
-  .section { margin-bottom: 28px; }
-  .section-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-    font-family: 'DM Mono', monospace;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+/* METRICS */
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px 18px;box-shadow:var(--sh-sm)}
+.metric-label{font-size:11px;color:var(--text-tertiary);font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.metric-value{font-size:24px;font-weight:600;color:var(--text-primary);letter-spacing:-0.02em;line-height:1.1}
+.metric-sub{font-size:11px;color:var(--text-tertiary);margin-top:5px}
+.metric-value.danger{color:var(--red)}.metric-value.success{color:var(--green-mid)}.metric-value.warn{color:var(--amber-mid)}.metric-value.info{color:var(--blue)}
 
-  /* GRIDS */
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  @media (max-width: 720px) {
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: 1fr; }
-    .grid-2 { grid-template-columns: 1fr; }
-  }
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh-sm)}
+.card-title{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:14px}
+.card.accent-red{border-top:3px solid var(--red-mid)}.card.accent-amber{border-top:3px solid var(--amber-mid)}
 
-  /* METRIC CARDS */
-  .metric {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 16px 18px;
-    box-shadow: var(--shadow-sm);
-  }
-  .metric-label { font-size: 11px; color: var(--text-tertiary); font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .06em; }
-  .metric-value { font-size: 24px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.02em; line-height: 1.1; }
-  .metric-sub { font-size: 11px; color: var(--text-tertiary); margin-top: 5px; }
-  .metric-value.danger { color: var(--red); }
-  .metric-value.success { color: var(--green-mid); }
-  .metric-value.warn { color: var(--amber-mid); }
+/* BADGES */
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em;margin-right:6px}
+.badge-red{background:var(--red-light);color:var(--red)}.badge-amber{background:var(--amber-light);color:var(--amber)}
+.badge-blue{background:var(--blue-light);color:var(--blue)}.badge-green{background:var(--green-light);color:var(--green)}
+.badge-teal{background:var(--teal-light);color:var(--teal)}.badge-purple{background:var(--purple-light);color:var(--purple)}
+.badge-gray{background:var(--gray-light);color:var(--gray-mid)}
 
-  /* CARDS */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 18px 20px;
-    box-shadow: var(--shadow-sm);
-  }
-  .card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 14px; }
-  .card.accent-red { border-left: 3px solid var(--red-mid); }
-  .card.accent-amber { border-left: 3px solid var(--amber-mid); }
-  .card.accent-blue { border-left: 3px solid var(--blue-mid); }
-  .card.accent-green { border-left: 3px solid var(--green-mid); }
+/* ROTA LIST */
+.rota-list{display:flex;flex-direction:column}
+.rota-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.rota-row:last-child{border-bottom:none}
+.rota-name{flex:1;color:var(--text-primary);min-width:0}
+.rota-bar-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.rota-bar-fill{height:100%;border-radius:3px;background:var(--blue-mid)}
+.rota-count{font-size:12px;color:var(--text-secondary);min-width:52px;text-align:right;font-family:'DM Mono',monospace}
+.rota-clickable{cursor:pointer;border-radius:var(--r-sm);padding-left:6px;padding-right:6px;transition:background .15s}
+.rota-clickable:hover{background:var(--surface-alt)}
+.rota-clickable.selected{background:var(--blue-light);border-bottom-color:transparent}
+.rota-clickable.selected .rota-name{color:var(--blue);font-weight:500}
+.rota-clickable.selected .rota-count{color:var(--blue)}
+.rota-clickable.selected .rota-bar-fill{background:var(--blue)}
 
-  /* BADGES */
-  .badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    margin-right: 6px;
-  }
-  .badge-red { background: var(--red-light); color: var(--red); }
-  .badge-amber { background: var(--amber-light); color: var(--amber); }
-  .badge-blue { background: var(--blue-light); color: var(--blue); }
-  .badge-green { background: var(--green-light); color: var(--green); }
-  .badge-teal { background: var(--teal-light); color: var(--teal); }
-  .badge-purple { background: var(--purple-light); color: var(--purple); }
-  .badge-gray { background: var(--gray-light); color: var(--gray-mid); }
+/* WEEK */
+.week-chart{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end}
+.week-col{display:flex;flex-direction:column;align-items:center;gap:6px}
+.week-label{font-size:11px;color:var(--text-tertiary);font-weight:500}
+.week-bar-wrap{width:100%;display:flex;align-items:flex-end;justify-content:center;height:72px}
+.week-bar{width:100%;border-radius:4px 4px 0 0;background:var(--blue-light)}
+.week-bar.highlight{background:var(--blue-mid)}.week-bar.top{background:var(--blue)}
+.week-num{font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace}
 
-  /* ROTA ROWS */
-  .rota-list { display: flex; flex-direction: column; gap: 0; }
-  .rota-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .rota-row:last-child { border-bottom: none; }
-  .rota-name { flex: 1; color: var(--text-primary); min-width: 0; }
-  .rota-bar-track { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .rota-bar-fill { height: 100%; border-radius: 3px; background: var(--blue-mid); }
-  .rota-count { font-size: 12px; color: var(--text-secondary); min-width: 52px; text-align: right; font-family: 'DM Mono', monospace; }
+/* FERIADOS */
+.feriado-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(max-width:600px){.feriado-grid{grid-template-columns:1fr}}
+.feriado-item{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.feriado-dot{width:7px;height:7px;border-radius:50%;background:var(--blue-mid);margin-top:4px;flex-shrink:0}
+.feriado-date{font-size:10px;font-weight:600;color:var(--text-tertiary);font-family:'DM Mono',monospace;margin-bottom:2px}
+.feriado-label{font-size:12px;font-weight:500;color:var(--text-primary)}
+.feriado-vol{font-size:11px;color:var(--text-tertiary);margin-top:1px}
 
-  /* WEEK BARS */
-  .week-chart { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: end; }
-  .week-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-  .week-label { font-size: 11px; color: var(--text-tertiary); font-weight: 500; }
-  .week-bar-wrap { width: 100%; display: flex; align-items: flex-end; justify-content: center; height: 72px; }
-  .week-bar { width: 100%; border-radius: 4px 4px 0 0; background: var(--blue-light); transition: background .2s; }
-  .week-bar.highlight { background: var(--blue-mid); }
-  .week-bar.top { background: var(--blue); }
-  .week-num { font-size: 10px; color: var(--text-tertiary); font-family: 'DM Mono', monospace; }
+/* SEG BARS */
+.seg-bar{height:6px;border-radius:3px;margin:8px 0 4px}
 
-  /* FERIADOS */
-  .feriado-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  @media (max-width: 600px) { .feriado-grid { grid-template-columns: 1fr; } }
-  .feriado-item {
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 12px 14px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .feriado-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--blue-mid);
-    margin-top: 4px;
-    flex-shrink: 0;
-  }
-  .feriado-date { font-size: 10px; font-weight: 600; color: var(--text-tertiary); font-family: 'DM Mono', monospace; margin-bottom: 2px; }
-  .feriado-label { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-  .feriado-vol { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }
+/* STRATEGY */
+.strategy-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.strategy-item:last-child{border-bottom:none}
+.strategy-title{font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:3px}
+.strategy-desc{font-size:12px;color:var(--text-secondary)}
 
-  /* SEG BARS */
-  .seg-bar { height: 6px; border-radius: 3px; margin: 8px 0 4px; }
+/* COMP ROWS */
+.comp-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.comp-row:last-child{border-bottom:none}
+.comp-row.status-perda{border-left:3px solid var(--red-mid);padding-left:10px}
+.comp-row.status-ausente{border-left:3px solid var(--red);padding-left:10px}
+.comp-row.status-desvantagem{border-left:3px solid var(--amber-mid);padding-left:10px}
+.comp-row.status-equilibrio{background:var(--surface-alt);border-radius:var(--r-sm);padding:9px 10px;margin:2px 0}
+.comp-name{flex:1;color:var(--text-primary);min-width:0;font-size:12px}
+.comp-share-wrap{display:flex;align-items:center;gap:8px;min-width:200px}
+.comp-bar-bg{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;display:flex}
+.comp-pct{font-size:12px;font-weight:600;min-width:38px;text-align:right;font-family:'DM Mono',monospace}
+.comp-vol{font-size:11px;color:var(--text-tertiary);min-width:54px;text-align:right;font-family:'DM Mono',monospace}
 
-  /* STRATEGY */
-  .strategy-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .strategy-item:last-child { border-bottom: none; }
-  .strategy-title { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 3px; }
-  .strategy-desc { font-size: 12px; color: var(--text-secondary); }
+/* OPP */
+.opp-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.opp-item:last-child{border-bottom:none}
+.opp-name{font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:3px}
+.opp-desc{font-size:12px;color:var(--text-secondary)}
 
-  /* COMPETITIVO — RROW */
-  .comp-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-  }
-  .comp-row:last-child { border-bottom: none; }
-  .comp-row.status-perda { border-left: 3px solid var(--red-mid); padding-left: 10px; }
-  .comp-row.status-ausente { border-left: 3px solid var(--red); padding-left: 10px; }
-  .comp-row.status-desvantagem { border-left: 3px solid var(--amber-mid); padding-left: 10px; }
-  .comp-row.status-equilibrio { background: var(--surface-alt); border-radius: var(--radius-sm); padding: 9px 10px; margin: 2px 0; }
-  .comp-name { flex: 1; color: var(--text-primary); min-width: 0; font-size: 12px; }
-  .comp-share-wrap { display: flex; align-items: center; gap: 8px; min-width: 200px; }
-  .comp-bar-bg { flex: 1; height: 7px; background: var(--border); border-radius: 4px; overflow: hidden; display: flex; }
-  .comp-pct { font-size: 12px; font-weight: 600; min-width: 38px; text-align: right; font-family: 'DM Mono', monospace; }
-  .comp-vol { font-size: 11px; color: var(--text-tertiary); min-width: 54px; text-align: right; font-family: 'DM Mono', monospace; }
+/* PRIORITY */
+.priority-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 20px;box-shadow:var(--sh-sm)}
+.priority-card.p-red{border-top:3px solid var(--red-mid)}.priority-card.p-amber{border-top:3px solid var(--amber-mid)}
+.priority-title{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:12px}
 
-  /* OPP */
-  .opp-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .opp-item:last-child { border-bottom: none; }
-  .opp-name { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 3px; }
-  .opp-desc { font-size: 12px; color: var(--text-secondary); }
+/* LEGEND */
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-secondary)}
+.legend-dot{width:10px;height:10px;border-radius:2px}
 
-  /* PRIORITY CARD */
-  .priority-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 18px 20px;
-    box-shadow: var(--shadow-sm);
-  }
-  .priority-card.p-red { border-top: 3px solid var(--red-mid); }
-  .priority-card.p-amber { border-top: 3px solid var(--amber-mid); }
-  .priority-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+/* HEATMAP */
+.heatmap-wrap{overflow-x:auto}
+.heatmap{border-collapse:collapse;width:100%;font-size:12px}
+.heatmap th{padding:8px 10px;text-align:left;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border);white-space:nowrap}
+.heatmap td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle}
+.heatmap tr:last-child td{border-bottom:none}
+.heatmap td.city{font-weight:500;color:var(--text-primary);white-space:nowrap}
+.hm-cell{display:flex;align-items:center;gap:6px}
+.hm-pill{min-width:64px;padding:3px 8px;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;text-align:center}
+.hm-bar{height:4px;border-radius:2px;margin-top:3px}
 
-  /* LEGEND */
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
-  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); }
-  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+/* TEMPO TREND */
+.trend-chart{display:flex;align-items:flex-end;gap:4px;height:60px;margin-top:8px}
+.trend-bar{flex:1;border-radius:3px 3px 0 0;min-height:4px;transition:opacity .2s}
+.trend-label{display:flex;gap:4px;margin-top:4px}
+.trend-l{flex:1;font-size:9px;color:var(--text-tertiary);text-align:center;font-family:'DM Mono',monospace}
 </style>
 </head>
 <body>
-
 <div class="app">
 
   <header class="app-header">
-    <div class="app-header-left">
+    <div>
       <p class="app-eyebrow">Grupo Guanabara — análise estratégica</p>
       <h1 class="app-title">Estudo Sampaio</h1>
       <p class="app-subtitle">Jan/2025 — Mai/2026 · 501.750 passageiros analisados</p>
     </div>
-    <nav class="nav-tabs" role="tablist">
-      <button class="nav-tab active" onclick="showPage('page-main', this)" role="tab" aria-selected="true">
+    <nav class="nav-tabs">
+      <button class="nav-tab active" onclick="showPage('page-main',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         Visão geral
       </button>
-      <button class="nav-tab" onclick="showPage('page-competitivo', this)" role="tab" aria-selected="false">
+      <button class="nav-tab" onclick="showPage('page-competitivo',this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-9"/></svg>
         Rota x empresa
       </button>
     </nav>
   </header>
 
-  <!-- ===================== PAGE VISÃO GERAL ===================== -->
+  <!-- ===== PAGE VISÃO GERAL ===== -->
   <div id="page-main" class="page active">
 
+    <!-- FILTRO TEMPO -->
+    <div class="time-filter">
+      <span class="tf-label">Última viagem:</span>
+      <button class="tf-btn active" onclick="setFilter('all',this,'main')">Todos</button>
+      <button class="tf-btn" onclick="setFilter('0-3m',this,'main')">0 a 3 meses</button>
+      <button class="tf-btn" onclick="setFilter('4-7m',this,'main')">4 a 7 meses</button>
+      <button class="tf-btn" onclick="setFilter('8-12m',this,'main')">8 a 12 meses</button>
+      <button class="tf-btn" onclick="setFilter('+1ano',this,'main')">+1 ano</button>
+    </div>
+
+    <!-- VISÃO GERAL -->
     <div class="section">
       <p class="section-label">Visão geral</p>
       <div class="grid-2" style="max-width:560px">
-        <div class="metric">
-          <p class="metric-label">Passageiros únicos</p>
-          <p class="metric-value">501.750</p>
-          <p class="metric-sub">Jan/2025 – Mai/2026</p>
-        </div>
-        <div class="metric">
-          <p class="metric-label">Total de viagens</p>
-          <p class="metric-value">613.326</p>
-          <p class="metric-sub">Média 1,22 por passageiro</p>
-        </div>
+        <div class="metric"><p class="metric-label">Passageiros únicos</p><p class="metric-value" id="m-pax">501.750</p><p class="metric-sub" id="m-pax-sub">Jan/2025 – Mai/2026</p></div>
+        <div class="metric"><p class="metric-label">Total de viagens</p><p class="metric-value" id="m-viag">613.326</p><p class="metric-sub" id="m-viag-sub">Média 1,22 por passageiro</p></div>
       </div>
     </div>
 
+    <!-- CONTATOS -->
     <div class="section">
       <p class="section-label">Qualidade de base — contatos</p>
-      <div class="grid-4">
+      <div class="grid-4" style="margin-bottom:10px">
         <div class="metric">
-          <p class="metric-label">Só telefone</p>
-          <p class="metric-value" style="color:var(--blue)">281.433</p>
-          <p class="metric-sub">56,1% da base</p>
+          <p class="metric-label">Celular válido</p>
+          <p class="metric-value info" id="m-tel">259.361</p>
+          <p class="metric-sub" id="m-tel-sub">51,7% da base — alcançável</p>
         </div>
         <div class="metric">
-          <p class="metric-label">Telefone + e-mail</p>
-          <p class="metric-value success">49.774</p>
-          <p class="metric-sub">9,9% — contato completo</p>
+          <p class="metric-label">E-mail válido</p>
+          <p class="metric-value success" id="m-both">49.318</p>
+          <p class="metric-sub" id="m-both-sub">9,8% — formato verificado</p>
         </div>
         <div class="metric">
-          <p class="metric-label">Só e-mail</p>
-          <p class="metric-value" style="color:var(--text-secondary)">51</p>
-          <p class="metric-sub">Residual — 0,01%</p>
+          <p class="metric-label">Tel. fixo / inválido</p>
+          <p class="metric-value warn" id="m-email">242.389</p>
+          <p class="metric-sub" id="m-email-sub">48,3% — não alcançáveis mobile</p>
         </div>
         <div class="metric">
           <p class="metric-label">Sem nenhum contato</p>
-          <p class="metric-value danger">170.492</p>
-          <p class="metric-sub">34% — prioridade de captura</p>
+          <p class="metric-value danger" id="m-sem">170.492</p>
+          <p class="metric-sub" id="m-sem-sub">34% — captura prioritária</p>
+        </div>
+      </div>
+      <!-- SEÇÃO INSIDER E ALCANÇABILIDADE -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px">
+        <div class="card" style="padding:16px 18px">
+          <p class="card-title" style="margin-bottom:16px">Base na Insider × alcance real</p>
+
+          <!-- TOTAL DA BASE -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:2px solid var(--border-strong);margin-bottom:12px">
+            <span style="font-size:12px;font-weight:600;color:var(--text-primary)">Total da base Sampaio</span>
+            <span style="font-size:16px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text-primary)">501.750</span>
+          </div>
+
+          <!-- TELEFONE -->
+          <div style="margin-bottom:14px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
+              <span style="font-size:12px;font-weight:600;color:var(--text-primary)">Telefone identificado na Insider</span>
+              <span style="font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">242.577</span>
+            </div>
+            <div style="display:flex;gap:8px;padding:8px 0">
+              <div style="flex:1;background:var(--green-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
+                <p style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">WhatsApp opt-in</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--green);margin-bottom:1px">10.760</p>
+                <p style="font-size:11px;color:var(--green-mid)">4,4%</p>
+              </div>
+              <div style="flex:1;background:var(--red-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
+                <p style="font-size:10px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">WhatsApp opt-out</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--red);margin-bottom:1px">48.111</p>
+                <p style="font-size:11px;color:var(--red-mid)">19,8%</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;padding-bottom:4px">
+              <div style="flex:1;background:var(--green-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
+                <p style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">SMS opt-in</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--green);margin-bottom:1px">12.020</p>
+                <p style="font-size:11px;color:var(--green-mid)">5,0%</p>
+              </div>
+              <div style="flex:1;background:var(--red-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
+                <p style="font-size:10px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">SMS opt-out</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--red);margin-bottom:1px">47.502</p>
+                <p style="font-size:11px;color:var(--red-mid)">19,6%</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- EMAIL -->
+          <div style="border-top:1px solid var(--border);padding-top:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
+              <span style="font-size:12px;font-weight:600;color:var(--text-primary)">E-mail identificado na Insider</span>
+              <span style="font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">35.740</span>
+            </div>
+            <div style="display:flex;gap:8px;padding:8px 0">
+              <div style="flex:1;background:var(--green-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
+                <p style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">E-mail opt-in</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--green);margin-bottom:1px">3.307</p>
+                <p style="font-size:11px;color:var(--green-mid)">9,3%</p>
+              </div>
+              <div style="flex:1;background:var(--red-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
+                <p style="font-size:10px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">E-mail opt-out</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--red);margin-bottom:1px">6.626</p>
+                <p style="font-size:11px;color:var(--red-mid)">18,5%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="padding:16px 18px">
+          <p class="card-title" style="margin-bottom:12px">Base alcançável por canal (opt-in)</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                <span style="font-size:12px;color:var(--text-primary);font-weight:500">SMS</span>
+                <div><span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">12.079</span><span style="font-size:11px;color:var(--text-tertiary);margin-left:5px">2,4%</span></div>
+              </div>
+              <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:5px;width:100%;background:var(--blue-mid);border-radius:3px"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                <span style="font-size:12px;color:var(--text-primary);font-weight:500">E-mail</span>
+                <div><span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">11.929</span><span style="font-size:11px;color:var(--text-tertiary);margin-left:5px">2,4%</span></div>
+              </div>
+              <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:5px;width:98.8%;background:var(--blue-mid);border-radius:3px"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                <span style="font-size:12px;color:var(--text-primary);font-weight:500">WhatsApp</span>
+                <div><span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">10.815</span><span style="font-size:11px;color:var(--text-tertiary);margin-left:5px">2,2%</span></div>
+              </div>
+              <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:5px;width:89.5%;background:#25D366;border-radius:3px"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                <span style="font-size:12px;color:var(--text-primary);font-weight:500">App Push</span>
+                <div><span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text-secondary)">6.267</span><span style="font-size:11px;color:var(--text-tertiary);margin-left:5px">1,2%</span></div>
+              </div>
+              <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:5px;width:51.9%;background:var(--purple-mid);border-radius:3px"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                <span style="font-size:12px;color:var(--text-primary);font-weight:500">Web Push</span>
+                <div><span style="font-size:12px;font-weight:600;font-family:'DM Mono',monospace;color:var(--text-secondary)">3.338</span><span style="font-size:11px;color:var(--text-tertiary);margin-left:5px">0,7%</span></div>
+              </div>
+              <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden"><div style="height:5px;width:27.6%;background:var(--amber-mid);border-radius:3px"></div></div>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--text-tertiary);margin-top:10px">% calculado sobre base total Sampaio (501.750). Opt-in verificado na Insider.</p>
         </div>
       </div>
     </div>
 
+    <!-- SEGMENTAÇÃO -->
     <div class="section">
       <p class="section-label">Segmentação de base</p>
       <div class="grid-3">
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span class="card-title" style="margin:0">Ocasionais</span>
-            <span class="badge badge-blue">1 viagem</span>
+            <span class="card-title" style="margin:0">Ocasionais</span><span class="badge badge-blue">1 viagem</span>
           </div>
-          <p style="font-size:30px;font-weight:600;letter-spacing:-0.03em;color:var(--text-primary)">89,2%</p>
-          <p style="font-size:12px;color:var(--text-secondary);margin:4px 0 10px">447.406 passageiros</p>
-          <div class="seg-bar" style="background:linear-gradient(90deg,#378ADD 89.2%,var(--border) 89.2%)"></div>
-          <p style="font-size:11px;color:var(--text-tertiary)">447.406 viagens geradas</p>
+          <p id="seg-oc-pct" style="font-size:30px;font-weight:600;letter-spacing:-0.03em">89,2%</p>
+          <p id="seg-oc-abs" style="font-size:12px;color:var(--text-secondary);margin:4px 0 10px">447.406 passageiros</p>
+          <div class="seg-bar" id="seg-oc-bar" style="background:linear-gradient(90deg,#378ADD 89.2%,var(--border) 89.2%)"></div>
+          <p id="seg-oc-viag" style="font-size:11px;color:var(--text-tertiary)">447.406 viagens geradas</p>
         </div>
-        <div class="card" style="border: 2px solid #B5D4F4;">
+        <div class="card" style="border:2px solid #B5D4F4">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span class="card-title" style="margin:0">Frequentes</span>
-            <span class="badge badge-purple">2–9 viagens</span>
+            <span class="card-title" style="margin:0">Frequentes</span><span class="badge badge-purple">2–9 viagens</span>
           </div>
-          <p style="font-size:30px;font-weight:600;letter-spacing:-0.03em;color:var(--text-primary)">10,6%</p>
-          <p style="font-size:12px;color:var(--text-secondary);margin:4px 0 10px">53.064 passageiros</p>
-          <div class="seg-bar" style="background:linear-gradient(90deg,#7F77DD 10.6%,var(--border) 10.6%)"></div>
-          <p style="font-size:11px;color:var(--text-tertiary)">145.226 viagens geradas</p>
+          <p id="seg-fr-pct" style="font-size:30px;font-weight:600;letter-spacing:-0.03em">10,6%</p>
+          <p id="seg-fr-abs" style="font-size:12px;color:var(--text-secondary);margin:4px 0 10px">53.064 passageiros</p>
+          <div class="seg-bar" id="seg-fr-bar" style="background:linear-gradient(90deg,#7F77DD 10.6%,var(--border) 10.6%)"></div>
+          <p id="seg-fr-viag" style="font-size:11px;color:var(--text-tertiary)">145.226 viagens geradas</p>
         </div>
         <div class="card">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span class="card-title" style="margin:0">Pendulares</span>
-            <span class="badge badge-green">10+ viagens</span>
+            <span class="card-title" style="margin:0">Pendulares</span><span class="badge badge-green">10+ viagens</span>
           </div>
-          <p style="font-size:30px;font-weight:600;letter-spacing:-0.03em;color:var(--text-primary)">0,3%</p>
-          <p style="font-size:12px;color:var(--text-secondary);margin:4px 0 10px">1.280 passageiros</p>
-          <div class="seg-bar" style="background:linear-gradient(90deg,#639922 0.3%,var(--border) 0.3%)"></div>
-          <p style="font-size:11px;color:var(--text-tertiary)">20.694 viagens geradas</p>
+          <p id="seg-pe-pct" style="font-size:30px;font-weight:600;letter-spacing:-0.03em">0,3%</p>
+          <p id="seg-pe-abs" style="font-size:12px;color:var(--text-secondary);margin:4px 0 10px">1.280 passageiros</p>
+          <div class="seg-bar" id="seg-pe-bar" style="background:linear-gradient(90deg,#639922 0.3%,var(--border) 0.3%)"></div>
+          <p id="seg-pe-viag" style="font-size:11px;color:var(--text-tertiary)">20.694 viagens geradas</p>
         </div>
       </div>
     </div>
 
+    <!-- ROTAS INTERATIVAS -->
     <div class="section">
-      <p class="section-label">Top 10 rotas por volume</p>
-      <div class="card">
-        <div class="rota-list">
-          <div class="rota-row"><span class="rota-name">RJ ↔ São José dos Campos - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:100%"></div></div><span class="rota-count">87.792</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ Aparecida - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:71%"></div></div><span class="rota-count">53.945</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ Taubaté - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:62%"></div></div><span class="rota-count">45.544</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ Santos - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:53%"></div></div><span class="rota-count">38.623</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ São Lourenço - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:44%"></div></div><span class="rota-count">32.125</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ Mogi das Cruzes - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:27%"></div></div><span class="rota-count">20.597</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ Pouso Alegre - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:20%"></div></div><span class="rota-count">15.755</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ Varginha - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:17%"></div></div><span class="rota-count">14.005</span></div>
-          <div class="rota-row"><span class="rota-name">RJ ↔ Lavras - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:13%"></div></div><span class="rota-count">11.578</span></div>
-          <div class="rota-row"><span class="rota-name">SJC - SP ↔ Resende - RJ</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:13%"></div></div><span class="rota-count">11.310</span></div>
+      <p class="section-label">Top 10 rotas por volume <span style="font-weight:400;text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-tertiary);margin-left:4px">— clique para ver a segmentação</span></p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+        <div class="card" style="padding:14px 16px">
+          <div class="rota-list" id="rota-list">
+            <div class="rota-row rota-clickable" data-id="0" onclick="selectRota(0)"><span class="rota-name">RJ ↔ São José dos Campos - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:100%"></div></div><span class="rota-count" id="rc-0">87.792</span></div>
+            <div class="rota-row rota-clickable" data-id="1" onclick="selectRota(1)"><span class="rota-name">RJ ↔ Aparecida - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:71%"></div></div><span class="rota-count" id="rc-1">53.945</span></div>
+            <div class="rota-row rota-clickable" data-id="2" onclick="selectRota(2)"><span class="rota-name">RJ ↔ Taubaté - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:62%"></div></div><span class="rota-count" id="rc-2">45.544</span></div>
+            <div class="rota-row rota-clickable" data-id="3" onclick="selectRota(3)"><span class="rota-name">RJ ↔ Santos - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:53%"></div></div><span class="rota-count" id="rc-3">38.623</span></div>
+            <div class="rota-row rota-clickable" data-id="4" onclick="selectRota(4)"><span class="rota-name">RJ ↔ São Lourenço - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:44%"></div></div><span class="rota-count" id="rc-4">32.125</span></div>
+            <div class="rota-row rota-clickable" data-id="5" onclick="selectRota(5)"><span class="rota-name">RJ ↔ Mogi das Cruzes - SP</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:27%"></div></div><span class="rota-count" id="rc-5">20.597</span></div>
+            <div class="rota-row rota-clickable" data-id="6" onclick="selectRota(6)"><span class="rota-name">RJ ↔ Pouso Alegre - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:20%"></div></div><span class="rota-count" id="rc-6">15.755</span></div>
+            <div class="rota-row rota-clickable" data-id="7" onclick="selectRota(7)"><span class="rota-name">RJ ↔ Varginha - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:17%"></div></div><span class="rota-count" id="rc-7">14.005</span></div>
+            <div class="rota-row rota-clickable" data-id="8" onclick="selectRota(8)"><span class="rota-name">RJ ↔ Lavras - MG</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:13%"></div></div><span class="rota-count" id="rc-8">11.578</span></div>
+            <div class="rota-row rota-clickable" data-id="9" onclick="selectRota(9)"><span class="rota-name">SJC - SP ↔ Resende - RJ</span><div class="rota-bar-track"><div class="rota-bar-fill" style="width:13%"></div></div><span class="rota-count" id="rc-9">10.935</span></div>
+          </div>
+          <p style="font-size:11px;color:var(--text-tertiary);margin-top:10px">Corredor dominante: SP ↔ RJ (376k+) · RJ ↔ MG (122k+)</p>
         </div>
-        <p style="font-size:11px;color:var(--text-tertiary);margin-top:10px">Corredor dominante: SP ↔ RJ (376k+) · RJ ↔ MG (122k+)</p>
+        <div class="card" id="seg-panel" style="padding:16px 18px;min-height:320px;display:flex;flex-direction:column;justify-content:center">
+          <div id="seg-empty" style="text-align:center;padding:32px 16px">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--surface-alt);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </div>
+            <p style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:4px">Selecione uma rota</p>
+            <p style="font-size:12px;color:var(--text-tertiary)">Clique em qualquer rota ao lado para ver a distribuição de segmentos</p>
+          </div>
+          <div id="seg-content" style="display:none">
+            <p id="seg-rota-title" style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:4px"></p>
+            <p id="seg-rota-total" style="font-size:11px;color:var(--text-tertiary);margin-bottom:18px"></p>
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+                <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD;display:inline-block"></span><span style="font-size:12px;font-weight:500">Ocasionais</span><span class="badge badge-blue" id="r-oc-badge"></span></div>
+                <span style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text-secondary)" id="r-oc-count"></span>
+              </div>
+              <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div id="r-oc-bar" style="height:8px;background:#378ADD;border-radius:4px;transition:width .4s ease;width:0"></div></div>
+            </div>
+            <div style="margin-bottom:14px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+                <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#7F77DD;display:inline-block"></span><span style="font-size:12px;font-weight:500">Frequentes</span><span class="badge badge-purple" id="r-fr-badge"></span></div>
+                <span style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text-secondary)" id="r-fr-count"></span>
+              </div>
+              <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div id="r-fr-bar" style="height:8px;background:#7F77DD;border-radius:4px;transition:width .4s ease;width:0"></div></div>
+            </div>
+            <div style="margin-bottom:18px">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+                <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#639922;display:inline-block"></span><span style="font-size:12px;font-weight:500">Pendulares</span><span class="badge badge-green" id="r-pe-badge"></span></div>
+                <span style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text-secondary)" id="r-pe-count"></span>
+              </div>
+              <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div id="r-pe-bar" style="height:8px;background:#639922;border-radius:4px;transition:width .4s ease;width:0"></div></div>
+            </div>
+            <!-- MINI TREND por faixa de tempo -->
+            <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px;margin-bottom:12px">
+              <p style="font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:10px">Distribuição por período</p>
+              <div id="rota-trend-bars" class="trend-chart"></div>
+              <div id="rota-trend-labels" class="trend-label"></div>
+            </div>
+            <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px">
+              <p id="seg-insight" style="font-size:12px;color:var(--text-secondary);margin:0;line-height:1.5"></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- FERIADOS -->
     <div class="section">
       <p class="section-label">Picos de viagem × feriados e datas sazonais</p>
       <div class="feriado-grid">
@@ -441,6 +458,7 @@
       </div>
     </div>
 
+    <!-- SEMANA -->
     <div class="section">
       <p class="section-label">Comportamento semanal</p>
       <div class="card">
@@ -451,35 +469,46 @@
           <div class="week-col"><p class="week-label">Qui</p><div class="week-bar-wrap"><div class="week-bar highlight" style="height:60%"></div></div><p class="week-num">67.582</p></div>
           <div class="week-col"><p class="week-label">Sex</p><div class="week-bar-wrap"><div class="week-bar top" style="height:80%"></div></div><p class="week-num" style="color:var(--blue)">85.029</p></div>
           <div class="week-col"><p class="week-label">Sáb</p><div class="week-bar-wrap"><div class="week-bar highlight" style="height:66%"></div></div><p class="week-num">69.810</p></div>
-          <div class="week-col"><p class="week-label">Dom</p><div class="week-bar-wrap"><div class="week-bar top" style="height:100%;background:var(--blue)"></div></div><p class="week-num" style="color:var(--blue);font-weight:600">92.339</p></div>
+          <div class="week-col"><p class="week-label">Dom</p><div class="week-bar-wrap"><div class="week-bar top" style="height:100%"></div></div><p class="week-num" style="color:var(--blue);font-weight:600">92.339</p></div>
         </div>
-        <p style="font-size:11px;color:var(--text-tertiary);margin-top:14px">Domingo e sexta concentram 29% de todas as viagens — padrão típico de lazer e retorno de fim de semana</p>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-top:14px">Domingo e sexta concentram 29% de todas as viagens</p>
       </div>
     </div>
 
+    <!-- ESTRATÉGIAS -->
     <div class="section">
       <p class="section-label">Estratégias recomendadas</p>
       <div class="grid-2">
         <div class="card">
           <p class="card-title">Ações de ativação</p>
           <div class="strategy-item"><p class="strategy-title"><span class="badge badge-red">urgente</span>Capturar 34% sem contato</p><p class="strategy-desc">170k passageiros invisíveis. Ação no embarque/app para coleta de dado.</p></div>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-amber">alto impacto</span>Reativar ocasionais</p><p class="strategy-desc">89% fez 1 viagem. Oferta direcionada 30–60 dias após a viagem = retorno provável.</p></div>
+          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-amber">alto impacto</span>Reativar ocasionais</p><p class="strategy-desc">89% fez 1 viagem. Oferta direcionada 30–60 dias após a viagem.</p></div>
           <div class="strategy-item"><p class="strategy-title"><span class="badge badge-purple">fidelidade</span>Upgrade de frequentes</p><p class="strategy-desc">53k passageiros entre 2–9 viagens. Viva Fidelidade com meta de próxima viagem.</p></div>
         </div>
         <div class="card">
           <p class="card-title">Rotas e sazonalidade</p>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-blue">rota</span>Aprofundar RJ ↔ SJC e Aparecida</p><p class="strategy-desc">Maior rota (87k). Aparecida tem componente religioso forte — ação em outubro.</p></div>
+          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-blue">rota</span>Aprofundar RJ ↔ SJC e Aparecida</p><p class="strategy-desc">Maior rota (87k). Aparecida tem componente religioso — ação em outubro.</p></div>
           <div class="strategy-item"><p class="strategy-title"><span class="badge badge-green">sazonal</span>Campanhas pré-feriado</p><p class="strategy-desc">Semana Santa, Carnaval, Natal e Dia do Trabalho = janelas de +30% de volume.</p></div>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-amber">novo mercado</span>Expandir corredor MG</p><p class="strategy-desc">São Lourenço, Pouso Alegre e Varginha crescendo. Turismo de saúde e lazer.</p></div>
+
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- ===================== PAGE COMPETITIVO ===================== -->
+  <!-- ===== PAGE COMPETITIVO ===== -->
   <div id="page-competitivo" class="page">
 
+    <!-- FILTRO TEMPO COMP -->
+    <div class="time-filter">
+      <span class="tf-label">Última viagem:</span>
+      <button class="tf-btn active" onclick="setFilter('all',this,'comp')">Todos</button>
+      <button class="tf-btn" onclick="setFilter('0-3m',this,'comp')">0 a 3 meses</button>
+      <button class="tf-btn" onclick="setFilter('4-7m',this,'comp')">4 a 7 meses</button>
+      <button class="tf-btn" onclick="setFilter('8-12m',this,'comp')">8 a 12 meses</button>
+      <button class="tf-btn" onclick="setFilter('+1ano',this,'comp')">+1 ano</button>
+    </div>
+
+    <!-- MÉTRICAS COMP -->
     <div class="section">
       <p class="section-label">Visão geral competitiva</p>
       <div class="grid-4">
@@ -490,61 +519,73 @@
       </div>
     </div>
 
+    <!-- MAPA DE BATALHA -->
     <div class="section">
-      <p class="section-label">Mapa de batalha — todas as rotas disputadas</p>
-      <div class="card">
+      <p class="section-label">Mapa de batalha — rotas disputadas</p>
+      <div class="card" id="comp-battle-card">
         <div class="legend">
           <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div>Sampaio</div>
           <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Util</div>
           <div class="legend-item"><div class="legend-dot" style="background:#BA7517"></div>Rápido Federal</div>
         </div>
-
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-green">dominância</span>RJ ↔ Taubaté - SP</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:99.4%;background:#185FA5"></div><div style="height:7px;width:0.6%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">99,4%</span></div><span class="comp-vol">61.563</span></div>
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-green">dominância</span>RJ ↔ São José dos Campos - SP</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:99.3%;background:#185FA5"></div><div style="height:7px;width:0.7%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">99,3%</span></div><span class="comp-vol">116.917</span></div>
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-green">dominância</span>Aparecida ↔ Resende - RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:96.2%;background:#185FA5"></div><div style="height:7px;width:3.8%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">96,2%</span></div><span class="comp-vol">11.179</span></div>
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-green">dominância</span>Mogi das Cruzes ↔ Resende - RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:95.7%;background:#185FA5"></div><div style="height:7px;width:4.3%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">95,7%</span></div><span class="comp-vol">3.011</span></div>
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-green">dominância</span>Resende ↔ São José dos Campos</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:95%;background:#185FA5"></div><div style="height:7px;width:5%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">95,0%</span></div><span class="comp-vol">14.805</span></div>
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-teal">liderança</span>Aparecida ↔ Volta Redonda - RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:83.3%;background:#185FA5"></div><div style="height:7px;width:16.7%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">83,3%</span></div><span class="comp-vol">8.088</span></div>
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-teal">liderança</span>Barra Mansa ↔ Mogi das Cruzes - SP</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:88.8%;background:#185FA5"></div><div style="height:7px;width:11.2%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">88,8%</span></div><span class="comp-vol">1.509</span></div>
-        <div class="comp-row"><span class="comp-name"><span class="badge badge-teal">liderança</span>SJC - SP ↔ Volta Redonda - RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:63.5%;background:#185FA5"></div><div style="height:7px;width:36.5%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#185FA5">63,5%</span></div><span class="comp-vol">8.020</span></div>
-        <div class="comp-row status-equilibrio"><span class="comp-name"><span class="badge badge-amber">equilíbrio</span>RJ ↔ São Vicente - SP</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:50.9%;background:#185FA5"></div><div style="height:7px;width:49.1%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#BA7517">50,9%</span></div><span class="comp-vol">7.109</span></div>
-        <div class="comp-row status-equilibrio"><span class="comp-name"><span class="badge badge-amber">equilíbrio</span>Cubatão ↔ Resende - RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:53.7%;background:#185FA5"></div><div style="height:7px;width:46.3%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#BA7517">53,7%</span></div><span class="comp-vol">559</span></div>
-        <div class="comp-row status-desvantagem"><span class="comp-name"><span class="badge badge-amber">desvantagem</span>RJ ↔ Santos - SP</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:48.7%;background:#185FA5"></div><div style="height:7px;width:51.3%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#E24B4A">48,7%</span></div><span class="comp-vol">87.522</span></div>
-        <div class="comp-row status-desvantagem"><span class="comp-name"><span class="badge badge-amber">desvantagem</span>Praia Grande ↔ RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:48%;background:#185FA5"></div><div style="height:7px;width:52%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#E24B4A">48,0%</span></div><span class="comp-vol">15.514</span></div>
-        <div class="comp-row status-desvantagem"><span class="comp-name"><span class="badge badge-amber">desvantagem</span>Guarulhos ↔ Resende - RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:37.8%;background:#185FA5"></div><div style="height:7px;width:62.2%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#E24B4A">37,8%</span></div><span class="comp-vol">7.886</span></div>
-        <div class="comp-row status-perda"><span class="comp-name"><span class="badge badge-red">perda crítica</span>Guarulhos ↔ RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:21.1%;background:#185FA5"></div><div style="height:7px;width:78.9%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#A32D2D">21,1%</span></div><span class="comp-vol">38.165</span></div>
-        <div class="comp-row status-perda"><span class="comp-name"><span class="badge badge-red">perda crítica</span>Cubatão ↔ RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:29.1%;background:#185FA5"></div><div style="height:7px;width:70.9%;background:#E24B4A"></div></div><span class="comp-pct" style="color:#A32D2D">29,1%</span></div><span class="comp-vol">2.348</span></div>
-        <div class="comp-row status-perda"><span class="comp-name"><span class="badge badge-red">perda crítica</span>Barbacena - MG ↔ RJ</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:1.1%;background:#185FA5"></div><div style="height:7px;width:86.5%;background:#E24B4A"></div><div style="height:7px;width:12.1%;background:#BA7517"></div></div><span class="comp-pct" style="color:#A32D2D">1,1%</span></div><span class="comp-vol">58.420</span></div>
-        <div class="comp-row status-ausente"><span class="comp-name"><span class="badge badge-red">ausente</span>RJ ↔ Santos Dumont - MG</span><div class="comp-share-wrap"><div class="comp-bar-bg"><div style="height:7px;width:93.8%;background:#E24B4A"></div><div style="height:7px;width:6%;background:#BA7517"></div></div><span class="comp-pct" style="color:#A32D2D">0%</span></div><span class="comp-vol">3.968</span></div>
+        <div id="comp-rows-container">
+          <!-- Renderizado por JS -->
+        </div>
       </div>
     </div>
 
+    <!-- PRIORIDADES -->
     <div class="section">
       <p class="section-label">Prioridades de ataque</p>
       <div class="grid-2">
-        <div class="priority-card p-red">
-          <p class="priority-title"><span class="badge badge-red">1</span>Recuperar Guarulhos ↔ RJ</p>
-          <div class="opp-item"><p class="opp-name">38.165 viagens — Util tem 78,9%</p><p class="opp-desc">Passar de 21% para 40% representaria +7.300 viagens capturadas.</p></div>
-          <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Preço competitivo + pontos duplos para migração de rota no Viva Fidelidade.</p></div>
-        </div>
-        <div class="priority-card p-red">
-          <p class="priority-title"><span class="badge badge-red">2</span>Entrar em RJ ↔ Santos Dumont - MG</p>
-          <div class="opp-item"><p class="opp-name">3.968 viagens — Sampaio ausente</p><p class="opp-desc">Rota 100% Util + Rápido Federal. Destino em crescimento.</p></div>
-          <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Avaliar licença operacional. Se disponível, lançar com base RJ ↔ MG existente.</p></div>
-        </div>
-        <div class="priority-card p-amber">
-          <p class="priority-title"><span class="badge badge-amber">3</span>Disputar RJ ↔ Santos - SP</p>
-          <div class="opp-item"><p class="opp-name">87.522 viagens — quase empate (48,7% vs 51,3%)</p><p class="opp-desc">Maior rota disputada. Ganhar 3 pontos = ~2.600 viagens extras.</p></div>
-          <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Campanha sazonal focada em litoral — verão e feriados costeiros.</p></div>
-        </div>
-        <div class="priority-card p-amber">
-          <p class="priority-title"><span class="badge badge-amber">4</span>Investigar Barbacena - MG</p>
-          <div class="opp-item"><p class="opp-name">58.420 viagens — Sampaio tem 1,1%</p><p class="opp-desc">Alto volume, presença quase nula. Possível restrição operacional.</p></div>
-          <div class="opp-item"><p class="opp-name">Ação sugerida</p><p class="opp-desc">Verificar licença e horários. Se há margem, direcionar base MG com oferta dedicada.</p></div>
-        </div>
+        <div class="priority-card p-red"><p class="priority-title"><span class="badge badge-red">1</span>Recuperar Guarulhos ↔ RJ</p><div class="opp-item"><p class="opp-name">38.165 viagens — Util tem 78,9%</p><p class="opp-desc">Passar de 21% para 40% = +7.300 viagens capturadas.</p></div></div>
+        <div class="priority-card p-red"><p class="priority-title"><span class="badge badge-red">2</span>Entrar em RJ ↔ Santos Dumont - MG</p><div class="opp-item"><p class="opp-name">3.968 viagens — Sampaio ausente</p><p class="opp-desc">Rota 100% Util + Rápido Federal. Destino em crescimento.</p></div></div>
+        <div class="priority-card p-amber"><p class="priority-title"><span class="badge badge-amber">3</span>Disputar RJ ↔ Santos - SP</p><div class="opp-item"><p class="opp-name">87.522 viagens — quase empate (48,7% vs 51,3%)</p><p class="opp-desc">Maior rota disputada. Ganhar 3 pontos = ~2.600 viagens extras.</p></div></div>
+        <div class="priority-card p-amber"><p class="priority-title"><span class="badge badge-amber">4</span>Investigar Barbacena - MG</p><div class="opp-item"><p class="opp-name">58.420 viagens — Sampaio tem 1,1%</p><p class="opp-desc">Alto volume, presença quase nula. Possível restrição operacional.</p></div></div>
       </div>
     </div>
 
+    <!-- HEATMAP -->
+    <div class="section">
+      <p class="section-label">Mapa de calor — origens mais utilizadas (Sampaio)</p>
+      <div class="card">
+        <!-- Legenda do mapa de calor -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+          <span style="font-size:11px;color:var(--text-tertiary)">Volume de passageiros:</span>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div style="width:14px;height:14px;border-radius:3px;background:#dbeafe"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">&lt; 5k</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div style="width:14px;height:14px;border-radius:3px;background:#93c5fd"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">5k–20k</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div style="width:14px;height:14px;border-radius:3px;background:#3b82f6"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">20k–50k</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div style="width:14px;height:14px;border-radius:3px;background:#1d4ed8"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">50k–100k</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px">
+            <div style="width:14px;height:14px;border-radius:3px;background:#1e3a8a"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">&gt; 100k</span>
+          </div>
+        </div>
+        <div class="heatmap-wrap">
+          <table class="heatmap" id="heatmap-table">
+            <thead>
+              <tr>
+                <th>Cidade de Origem</th>
+                <th>UF</th>
+                <th>Passageiros</th>
+                <th>Distribuição</th>
+              </tr>
+            </thead>
+            <tbody id="heatmap-body"></tbody>
+          </table>
+        </div>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-top:10px">Origem = cidade de partida da primeira perna da viagem do passageiro. Top 20 origens exibidas.</p>
+      </div>
+    </div>
+
+    <!-- EXPANSÃO -->
     <div class="section">
       <p class="section-label">Rotas exclusivas da Util — oportunidades de expansão</p>
       <div class="card">
@@ -555,20 +596,273 @@
         <div class="opp-item"><p class="opp-name"><span class="badge badge-gray">359 + 228 viagens</span>Pontos da Barra ↔ Praia Grande / Guarulhos</p><p class="opp-desc">Extensões de rotas que a Sampaio já opera, mas a partir de terminais diferentes.</p></div>
       </div>
     </div>
-
   </div>
-
 </div>
 
 <script>
-  function showPage(id, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
-    document.getElementById(id).classList.add('active');
-    if (btn) { btn.classList.add('active'); btn.setAttribute('aria-selected','true'); }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-</script>
+// ===== DADOS =====
+const segByTime = {
+  all:   {pax:501750,viag:613326,oc:447406,ocP:89.2,fr:53064,frP:10.6,pe:1280,peP:0.3,ocViag:447406,frViag:145226,peViag:20694,tel:281433,both:49774,email:51,sem:170492},
+  '0-3m':{pax:97687, viag:null, oc:78434, ocP:80.3,fr:18312,frP:18.7,pe:941, peP:1.0, ocViag:78434, frViag:null,frViag:null,peViag:null,tel:null,both:null,email:null,sem:null},
+  '4-7m':{pax:137391,viag:null, oc:119559,ocP:87.0,fr:17595,frP:12.8,pe:237, peP:0.2, ocViag:119559,frViag:null,peViag:null,tel:null,both:null,email:null,sem:null},
+  '8-12m':{pax:135044,viag:null,oc:122756,ocP:90.9,fr:12199,frP:9.0, pe:89,  peP:0.1, ocViag:122756,frViag:null,peViag:null,tel:null,both:null,email:null,sem:null},
+  '+1ano':{pax:131628,viag:null,oc:126657,ocP:96.2,fr:4958, frP:3.8, pe:13,  peP:0.0, ocViag:126657,frViag:null,peViag:null,tel:null,both:null,email:null,sem:null},
+};
 
+const rotaData = [
+  {nome:"RJ ↔ São José dos Campos - SP",all:{t:87792,oc:75469,ocP:86.0,fr:11929,frP:13.6,pe:394,peP:0.4},'0-3m':{t:17412,oc:13182,ocP:75.7,fr:3947,frP:22.7,pe:283,peP:1.6},'4-7m':{t:23511,oc:19434,ocP:82.7,fr:3993,frP:17.0,pe:84,peP:0.4},'8-12m':{t:22792,oc:20045,ocP:87.9,fr:2722,frP:11.9,pe:25,peP:0.1},'+1ano':{t:24077,oc:22808,ocP:94.7,fr:1267,frP:5.3,pe:2,peP:0.0}},
+  {nome:"RJ ↔ Aparecida - SP",all:{t:53945,oc:50424,ocP:93.5,fr:3474,frP:6.4,pe:47,peP:0.1},'0-3m':{t:10270,oc:8880,ocP:86.5,fr:1350,frP:13.1,pe:40,peP:0.4},'4-7m':{t:15890,oc:14722,ocP:92.6,fr:1163,frP:7.3,pe:5,peP:0.0},'8-12m':{t:16051,oc:15330,ocP:95.5,fr:719,frP:4.5,pe:2,peP:0.0},'+1ano':{t:11734,oc:11492,ocP:97.9,fr:242,frP:2.1,pe:0,peP:0.0}},
+  {nome:"RJ ↔ Taubaté - SP",all:{t:45544,oc:39038,ocP:85.7,fr:6275,frP:13.8,pe:231,peP:0.5},'0-3m':{t:9475,oc:7097,ocP:74.9,fr:2203,frP:23.2,pe:175,peP:1.8},'4-7m':{t:11918,oc:9880,ocP:82.9,fr:1998,frP:16.8,pe:40,peP:0.3},'8-12m':{t:12759,oc:11244,ocP:88.1,fr:1502,frP:11.8,pe:13,peP:0.1},'+1ano':{t:11392,oc:10817,ocP:95.0,fr:572,frP:5.0,pe:3,peP:0.0}},
+  {nome:"RJ ↔ Santos - SP",all:{t:38623,oc:36005,ocP:93.2,fr:2602,frP:6.7,pe:16,peP:0.0},'0-3m':{t:7317,oc:6496,ocP:88.8,fr:812,frP:11.1,pe:9,peP:0.1},'4-7m':{t:10337,oc:9542,ocP:92.3,fr:792,frP:7.7,pe:3,peP:0.0},'8-12m':{t:9358,oc:8666,ocP:92.6,fr:689,frP:7.4,pe:3,peP:0.0},'+1ano':{t:11611,oc:11301,ocP:97.3,fr:309,frP:2.7,pe:1,peP:0.0}},
+  {nome:"RJ ↔ São Lourenço - MG",all:{t:32125,oc:28471,ocP:88.6,fr:3584,frP:11.2,pe:70,peP:0.2},'0-3m':{t:6306,oc:4918,ocP:78.0,fr:1332,frP:21.1,pe:56,peP:0.9},'4-7m':{t:8595,oc:7361,ocP:85.6,fr:1223,frP:14.2,pe:11,peP:0.1},'8-12m':{t:8396,oc:7631,ocP:90.9,fr:762,frP:9.1,pe:3,peP:0.0},'+1ano':{t:8828,oc:8561,ocP:97.0,fr:267,frP:3.0,pe:0,peP:0.0}},
+  {nome:"RJ ↔ Mogi das Cruzes - SP",all:{t:20597,oc:18077,ocP:87.8,fr:2479,frP:12.0,pe:41,peP:0.2},'0-3m':{t:3846,oc:3018,ocP:78.5,fr:795,frP:20.7,pe:33,peP:0.9},'4-7m':{t:5198,oc:4348,ocP:83.6,fr:845,frP:16.3,pe:5,peP:0.1},'8-12m':{t:5265,oc:4715,ocP:89.5,fr:547,frP:10.4,pe:3,peP:0.1},'+1ano':{t:6288,oc:5996,ocP:95.4,fr:292,frP:4.6,pe:0,peP:0.0}},
+  {nome:"RJ ↔ Pouso Alegre - MG",all:{t:15755,oc:13659,ocP:86.7,fr:2063,frP:13.1,pe:33,peP:0.2},'0-3m':{t:3423,oc:2649,ocP:77.4,fr:750,frP:21.9,pe:24,peP:0.7},'4-7m':{t:4324,oc:3584,ocP:82.9,fr:733,frP:17.0,pe:7,peP:0.2},'8-12m':{t:3990,oc:3558,ocP:89.2,fr:430,frP:10.8,pe:2,peP:0.1},'+1ano':{t:4018,oc:3868,ocP:96.3,fr:150,frP:3.7,pe:0,peP:0.0}},
+  {nome:"RJ ↔ Varginha - MG",all:{t:14005,oc:12200,ocP:87.1,fr:1775,frP:12.7,pe:30,peP:0.2},'0-3m':{t:2708,oc:2098,ocP:77.5,fr:582,frP:21.5,pe:28,peP:1.0},'4-7m':{t:4104,oc:3444,ocP:83.9,fr:658,frP:16.0,pe:2,peP:0.0},'8-12m':{t:3466,oc:3102,ocP:89.5,fr:364,frP:10.5,pe:0,peP:0.0},'+1ano':{t:3727,oc:3556,ocP:95.4,fr:171,frP:4.6,pe:0,peP:0.0}},
+  {nome:"RJ ↔ Lavras - MG",all:{t:11578,oc:10336,ocP:89.3,fr:1213,frP:10.5,pe:29,peP:0.3},'0-3m':{t:2298,oc:1856,ocP:80.8,fr:418,frP:18.2,pe:24,peP:1.0},'4-7m':{t:2942,oc:2530,ocP:86.0,fr:407,frP:13.8,pe:5,peP:0.2},'8-12m':{t:3267,oc:2976,ocP:91.1,fr:291,frP:8.9,pe:0,peP:0.0},'+1ano':{t:3071,oc:2974,ocP:96.8,fr:97,frP:3.2,pe:0,peP:0.0}},
+  {nome:"SJC - SP ↔ Resende - RJ",all:{t:10935,oc:9616,ocP:87.9,fr:1274,frP:11.7,pe:45,peP:0.4},'0-3m':{t:2203,oc:1708,ocP:77.5,fr:464,frP:21.1,pe:31,peP:1.4},'4-7m':{t:2828,oc:2414,ocP:85.4,fr:409,frP:14.5,pe:5,peP:0.2},'8-12m':{t:3154,oc:2852,ocP:90.4,fr:294,frP:9.3,pe:8,peP:0.3},'+1ano':{t:2750,oc:2642,ocP:96.1,fr:107,frP:3.9,pe:1,peP:0.0}},
+];
+
+const compDataByFilter = {
+  all: [
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.4,u:0.6,rf:0,t:61563},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.3,u:0.7,rf:0,t:116917},
+    {n:'Aparecida ↔ Resende - RJ',st:'dominancia',s:96.2,u:3.8,rf:0,t:11179},
+    {n:'Mogi das Cruzes ↔ Resende - RJ',st:'dominancia',s:95.7,u:4.3,rf:0,t:3011},
+    {n:'Resende ↔ São José dos Campos',st:'dominancia',s:95.0,u:5.0,rf:0,t:14805},
+    {n:'Aparecida ↔ Volta Redonda - RJ',st:'lideranca',s:83.3,u:16.7,rf:0,t:8088},
+    {n:'Barra Mansa ↔ Mogi das Cruzes - SP',st:'lideranca',s:88.8,u:11.2,rf:0,t:1509},
+    {n:'SJC - SP ↔ Volta Redonda - RJ',st:'lideranca',s:63.5,u:36.5,rf:0,t:8020},
+    {n:'RJ ↔ São Vicente - SP',st:'equilibrio',s:50.9,u:49.1,rf:0,t:7109},
+    {n:'Cubatão ↔ Resende - RJ',st:'equilibrio',s:53.7,u:46.3,rf:0,t:559},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:48.7,u:51.3,rf:0,t:87522},
+    {n:'Praia Grande ↔ RJ',st:'desvantagem',s:48.0,u:52.0,rf:0,t:15514},
+    {n:'Guarulhos ↔ Resende - RJ',st:'desvantagem',s:37.8,u:62.2,rf:0,t:7886},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:21.1,u:78.9,rf:0,t:38165},
+    {n:'Cubatão ↔ RJ',st:'perda',s:29.1,u:70.9,rf:0,t:2348},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.1,u:86.5,rf:12.1,t:58420},
+    {n:'RJ ↔ Santos Dumont - MG',st:'ausente',s:0,u:93.8,rf:6.0,t:3968},
+  ],
+  '0-3m': [
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.0,u:1.0,rf:0,t:9524},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.1,u:0.9,rf:0,t:17508},
+    {n:'Aparecida ↔ Resende - RJ',st:'dominancia',s:95.0,u:5.0,rf:0,t:2250},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:53.3,u:46.7,rf:0,t:13723},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:35.1,u:64.9,rf:0,t:5529},
+    {n:'Praia Grande ↔ RJ',st:'desvantagem',s:54.1,u:45.9,rf:0,t:2652},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.4,u:84.5,rf:13.9,t:7444},
+  ],
+  '4-7m': [
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.5,u:0.5,rf:0,t:11981},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.5,u:0.5,rf:0,t:23629},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:50.6,u:49.4,rf:0,t:20434},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:34.1,u:65.9,rf:0,t:8544},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.5,u:85.2,rf:12.2,t:11303},
+    {n:'Praia Grande ↔ RJ',st:'desvantagem',s:53.4,u:46.6,rf:0,t:4099},
+  ],
+  '8-12m': [
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.0,u:1.0,rf:0,t:12885},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:98.5,u:1.5,rf:0,t:23130},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:49.9,u:50.1,rf:0,t:18737},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:25.1,u:74.9,rf:0,t:8075},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.5,u:86.3,rf:12.0,t:10510},
+  ],
+  '+1ano': [
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:98.9,u:1.1,rf:0,t:24345},
+    {n:'RJ ↔ Santos - SP',st:'perda',s:38.5,u:61.5,rf:0,t:34628},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:6.8,u:93.2,rf:0,t:16017},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:0.7,u:89.5,rf:9.8,t:17163},
+  ]
+};
+
+const heatmapData = [
+  {c:'Rio de Janeiro',uf:'RJ',v:202688},
+  {c:'São José dos Campos',uf:'SP',v:54982},
+  {c:'Aparecida',uf:'SP',v:37299},
+  {c:'Taubaté',uf:'SP',v:29095},
+  {c:'Resende',uf:'RJ',v:24821},
+  {c:'Santos',uf:'SP',v:20979},
+  {c:'São Lourenço',uf:'MG',v:18431},
+  {c:'Mogi das Cruzes',uf:'SP',v:12320},
+  {c:'Barra Mansa',uf:'RJ',v:11224},
+  {c:'Pouso Alegre',uf:'MG',v:8569},
+  {c:'Volta Redonda',uf:'RJ',v:8364},
+  {c:'Varginha',uf:'MG',v:8120},
+  {c:'Lavras',uf:'MG',v:7471},
+  {c:'Três Corações',uf:'MG',v:6371},
+  {c:'Cachoeira Paulista',uf:'SP',v:6170},
+  {c:'Alfenas',uf:'MG',v:5591},
+  {c:'Lorena',uf:'SP',v:4924},
+  {c:'Guarulhos',uf:'SP',v:4710},
+  {c:'Campos do Jordão',uf:'SP',v:4691},
+  {c:'Praia Grande',uf:'SP',v:3514},
+];
+
+const faixaColors = {'0-3m':'#3b82f6','4-7m':'#60a5fa','8-12m':'#93c5fd','+1ano':'#bfdbfe'};
+const faixaLabels = {'0-3m':'0–3m','4-7m':'4–7m','8-12m':'8–12m','+1ano':'+1a'};
+
+let currentFilterMain = 'all';
+let currentFilterComp = 'all';
+let currentRota = null;
+
+// ===== HEATMAP =====
+function hmColor(v){
+  if(v>100000) return {bg:'#1e3a8a',text:'#fff'};
+  if(v>50000)  return {bg:'#1d4ed8',text:'#fff'};
+  if(v>20000)  return {bg:'#3b82f6',text:'#fff'};
+  if(v>5000)   return {bg:'#93c5fd',text:'#1e3a8a'};
+  return {bg:'#dbeafe',text:'#1e3a8a'};
+}
+
+function buildHeatmap(){
+  const max = heatmapData[0].v;
+  const tb = document.getElementById('heatmap-body');
+  tb.innerHTML = heatmapData.map(d=>{
+    const col = hmColor(d.v);
+    const pct = (d.v/max*100).toFixed(1);
+    const vFmt = d.v.toLocaleString('pt-BR');
+    return `<tr>
+      <td class="city">${d.c}</td>
+      <td><span class="badge badge-gray">${d.uf}</span></td>
+      <td>
+        <div class="hm-cell">
+          <span class="hm-pill" style="background:${col.bg};color:${col.text}">${vFmt}</span>
+        </div>
+        <div class="hm-bar" style="width:${pct}%;background:${col.bg};opacity:.7"></div>
+      </td>
+      <td style="width:160px">
+        <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+          <div style="height:8px;width:${pct}%;background:${col.bg};border-radius:4px"></div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ===== COMP ROWS =====
+function buildCompRows(filter){
+  const data = compDataByFilter[filter] || compDataByFilter['all'];
+  const stMap = {dominancia:'',lideranca:'',equilibrio:'status-equilibrio',desvantagem:'status-desvantagem',perda:'status-perda',ausente:'status-ausente'};
+  const badgeMap = {dominancia:'badge-green',lideranca:'badge-teal',equilibrio:'badge-amber',desvantagem:'badge-amber',perda:'badge-red',ausente:'badge-red'};
+  const labelMap = {dominancia:'dominância',lideranca:'liderança',equilibrio:'equilíbrio',desvantagem:'desvantagem',perda:'perda crítica',ausente:'ausente'};
+  const pctColorMap = {dominancia:'#185FA5',lideranca:'#185FA5',equilibrio:'#BA7517',desvantagem:'#E24B4A',perda:'#A32D2D',ausente:'#791F1F'};
+
+  document.getElementById('comp-rows-container').innerHTML = data.map(d=>`
+    <div class="comp-row ${stMap[d.st]}">
+      <span class="comp-name"><span class="badge ${badgeMap[d.st]}">${labelMap[d.st]}</span>${d.n}</span>
+      <div class="comp-share-wrap">
+        <div class="comp-bar-bg">
+          <div style="height:7px;width:${d.s}%;background:#185FA5"></div>
+          <div style="height:7px;width:${d.u}%;background:#E24B4A"></div>
+          ${d.rf>0?`<div style="height:7px;width:${d.rf}%;background:#BA7517"></div>`:''}
+        </div>
+        <span class="comp-pct" style="color:${pctColorMap[d.st]}">${d.s.toFixed(1)}%</span>
+      </div>
+      <span class="comp-vol">${d.t.toLocaleString('pt-BR')}</span>
+    </div>`).join('');
+}
+
+// ===== FILTER =====
+function setFilter(val, btn, page){
+  const prefix = page==='main' ? '#page-main' : '#page-competitivo';
+  document.querySelectorAll(prefix+' .tf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+
+  if(page==='main'){
+    currentFilterMain = val;
+    updateMainMetrics(val);
+    if(currentRota!==null) selectRota(currentRota);
+  } else {
+    currentFilterComp = val;
+    buildCompRows(val);
+  }
+}
+
+function updateMainMetrics(f){
+  const d = segByTime[f];
+  document.getElementById('m-pax').textContent = d.pax.toLocaleString('pt-BR');
+  document.getElementById('m-pax-sub').textContent = f==='all'?'Jan/2025 – Mai/2026':'Última viagem: '+({'+1ano':'há mais de 1 ano','0-3m':'0 a 3 meses atrás','4-7m':'4 a 7 meses atrás','8-12m':'8 a 12 meses atrás'}[f]||f);
+
+  const ocPct = d.ocP, frPct = d.frP, pePct = d.peP;
+  document.getElementById('seg-oc-pct').textContent = ocPct.toFixed(1)+'%';
+  document.getElementById('seg-oc-abs').textContent = d.oc.toLocaleString('pt-BR')+' passageiros';
+  document.getElementById('seg-oc-bar').style.background = `linear-gradient(90deg,#378ADD ${ocPct}%,var(--border) ${ocPct}%)`;
+  document.getElementById('seg-fr-pct').textContent = frPct.toFixed(1)+'%';
+  document.getElementById('seg-fr-abs').textContent = d.fr.toLocaleString('pt-BR')+' passageiros';
+  document.getElementById('seg-fr-bar').style.background = `linear-gradient(90deg,#7F77DD ${frPct}%,var(--border) ${frPct}%)`;
+  document.getElementById('seg-pe-pct').textContent = pePct.toFixed(1)+'%';
+  document.getElementById('seg-pe-abs').textContent = d.pe.toLocaleString('pt-BR')+' passageiros';
+  document.getElementById('seg-pe-bar').style.background = `linear-gradient(90deg,#639922 ${pePct}%,var(--border) ${pePct}%)`;
+
+  // viagens (só disponível para all)
+  document.getElementById('seg-oc-viag').textContent = d.ocViag ? d.ocViag.toLocaleString('pt-BR')+' viagens geradas' : '';
+  document.getElementById('seg-fr-viag').textContent = d.frViag ? d.frViag.toLocaleString('pt-BR')+' viagens geradas' : '';
+  document.getElementById('seg-pe-viag').textContent = d.peViag ? d.peViag.toLocaleString('pt-BR')+' viagens geradas' : '';
+
+  // contatos
+  if(d.tel){ document.getElementById('m-tel').textContent=d.tel.toLocaleString('pt-BR'); document.getElementById('m-tel-sub').textContent=(d.tel/d.pax*100).toFixed(1)+'% da base'; }
+  if(d.both){ document.getElementById('m-both').textContent=d.both.toLocaleString('pt-BR'); document.getElementById('m-both-sub').textContent=(d.both/d.pax*100).toFixed(1)+'% — contato completo'; }
+  if(d.email){ document.getElementById('m-email').textContent=d.email.toLocaleString('pt-BR'); }
+  if(d.sem){ document.getElementById('m-sem').textContent=d.sem.toLocaleString('pt-BR'); document.getElementById('m-sem-sub').textContent=(d.sem/d.pax*100).toFixed(1)+'% — prioridade de captura'; }
+}
+
+// ===== ROTA CLICK =====
+function selectRota(id){
+  currentRota = id;
+  const f = currentFilterMain;
+  const d = rotaData[id][f] || rotaData[id]['all'];
+
+  document.querySelectorAll('.rota-clickable').forEach(r=>r.classList.remove('selected'));
+  document.querySelector(`.rota-clickable[data-id="${id}"]`).classList.add('selected');
+
+  document.getElementById('seg-empty').style.display='none';
+  document.getElementById('seg-content').style.display='block';
+
+  document.getElementById('seg-rota-title').textContent = rotaData[id].nome;
+  document.getElementById('seg-rota-total').textContent = d.t.toLocaleString('pt-BR')+' passageiros'+(f!=='all'?' neste período':' no período total');
+
+  document.getElementById('r-oc-badge').textContent = d.ocP.toFixed(1)+'%';
+  document.getElementById('r-oc-count').textContent = d.oc.toLocaleString('pt-BR');
+  document.getElementById('r-fr-badge').textContent = d.frP.toFixed(1)+'%';
+  document.getElementById('r-fr-count').textContent = d.fr.toLocaleString('pt-BR');
+  document.getElementById('r-pe-badge').textContent = d.peP.toFixed(1)+'%';
+  document.getElementById('r-pe-count').textContent = d.pe.toLocaleString('pt-BR');
+
+  setTimeout(()=>{
+    document.getElementById('r-oc-bar').style.width=d.ocP+'%';
+    document.getElementById('r-fr-bar').style.width=d.frP+'%';
+    document.getElementById('r-pe-bar').style.width=Math.max(d.peP,0.3)+'%';
+  },30);
+
+  // Mini trend bars
+  const faixas = ['0-3m','4-7m','8-12m','+1ano'];
+  const vals = faixas.map(fx=>rotaData[id][fx]?rotaData[id][fx].t:0);
+  const maxV = Math.max(...vals);
+  document.getElementById('rota-trend-bars').innerHTML = faixas.map((fx,i)=>`
+    <div class="trend-bar" style="height:${vals[i]/maxV*100}%;background:${faixaColors[fx]};${f===fx?'outline:2px solid #1a1917;':'opacity:.75'}"></div>`).join('');
+  document.getElementById('rota-trend-labels').innerHTML = faixas.map(fx=>`
+    <div class="trend-l">${faixaLabels[fx]}</div>`).join('');
+
+  // Insight
+  let insight='';
+  if(d.ocP>=92) insight=`Rota muito sazonal — ${d.ocP.toFixed(0)}% viajou apenas uma vez${f!=='all'?' neste período':''}. Alto potencial de reativação pós-viagem.`;
+  else if(d.frP>=18) insight=`Frequentes acima da média (${d.frP.toFixed(0)}%). Rota com forte potencial de fidelização — Viva Fidelidade pode acelerar a recorrência.`;
+  else if(d.frP>=13) insight=`Base acima da média de frequentes (${d.frP.toFixed(0)}% vs 10,6% geral). Boa rota para campanhas de upgrade de segmento.`;
+  else insight=`Perfil próximo da média geral. Ação combinada: captura de recorrência para ocasionais e retenção para frequentes.`;
+  document.getElementById('seg-insight').textContent=insight;
+}
+
+// ===== NAV =====
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>{t.classList.remove('active');t.setAttribute('aria-selected','false')});
+  document.getElementById(id).classList.add('active');
+  if(btn){btn.classList.add('active');btn.setAttribute('aria-selected','true')}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ===== INIT =====
+buildHeatmap();
+buildCompRows('all');
+</script>
 </body>
 </html>
