@@ -45,7 +45,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
 
 /* TIME FILTER */
 .time-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
-.tf-btn{padding:6px 14px;font-size:12px;font-weight:500;border-radius:20px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-secondary);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.tf-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:12px;font-weight:500;border-radius:20px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-secondary);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
 .tf-btn:hover{border-color:var(--blue-mid);color:var(--blue)}
 .tf-btn.active{background:var(--blue);border-color:var(--blue);color:#fff}
 .tf-label{font-size:12px;color:var(--text-tertiary);display:flex;align-items:center;padding-right:4px}
@@ -187,6 +187,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-9"/></svg>
         Rota x empresa
       </button>
+      <button class="nav-tab" onclick="showPage('page-plano',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Plano de ação
+      </button>
     </nav>
   </header>
 
@@ -196,11 +200,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
     <!-- FILTRO TEMPO -->
     <div class="time-filter">
       <span class="tf-label">Última viagem:</span>
-      <button class="tf-btn active" onclick="setFilter('all',this,'main')">Todos</button>
+      <button class="tf-btn active" id="tf-main-all" onclick="setFilter('all',this,'main')">Todos</button>
       <button class="tf-btn" onclick="setFilter('0-3m',this,'main')">0 a 3 meses</button>
       <button class="tf-btn" onclick="setFilter('4-7m',this,'main')">4 a 7 meses</button>
       <button class="tf-btn" onclick="setFilter('8-12m',this,'main')">8 a 12 meses</button>
       <button class="tf-btn" onclick="setFilter('+1ano',this,'main')">+1 ano</button>
+      <button class="tf-btn tf-reset" id="tf-main-reset" onclick="resetFilter('main')" style="display:none;margin-left:8px;border-color:var(--border-strong);color:var(--text-tertiary);display:none;align-items:center;gap:5px">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Redefinir
+      </button>
     </div>
 
     <!-- VISÃO GERAL -->
@@ -215,26 +223,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
     <!-- CONTATOS -->
     <div class="section">
       <p class="section-label">Qualidade de base — contatos</p>
+      <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:12px">Os 4 grupos abaixo são mutuamente exclusivos e somam exatamente os 501.750 passageiros únicos da base.</p>
       <div class="grid-4" style="margin-bottom:10px">
         <div class="metric">
-          <p class="metric-label">Celular válido</p>
-          <p class="metric-value info" id="m-tel">259.361</p>
-          <p class="metric-sub" id="m-tel-sub">51,7% da base — alcançável</p>
+          <p class="metric-label">Celular válido + e-mail real</p>
+          <p class="metric-value success" id="m-both">24.202</p>
+          <p class="metric-sub" id="m-both-sub">4,8% — contato completo</p>
         </div>
         <div class="metric">
-          <p class="metric-label">E-mail válido</p>
-          <p class="metric-value success" id="m-both">49.318</p>
-          <p class="metric-sub" id="m-both-sub">9,8% — formato verificado</p>
+          <p class="metric-label">Só celular válido</p>
+          <p class="metric-value info" id="m-tel">235.159</p>
+          <p class="metric-sub" id="m-tel-sub">46,9% — alcançável por mobile</p>
         </div>
         <div class="metric">
-          <p class="metric-label">Tel. fixo / inválido</p>
-          <p class="metric-value warn" id="m-email">242.389</p>
-          <p class="metric-sub" id="m-email-sub">48,3% — não alcançáveis mobile</p>
+          <p class="metric-label">Só e-mail real</p>
+          <p class="metric-value warn" id="m-email">2.135</p>
+          <p class="metric-sub" id="m-email-sub">0,4% — sem celular válido</p>
         </div>
         <div class="metric">
-          <p class="metric-label">Sem nenhum contato</p>
-          <p class="metric-value danger" id="m-sem">170.492</p>
-          <p class="metric-sub" id="m-sem-sub">34% — captura prioritária</p>
+          <p class="metric-label">Sem contato válido</p>
+          <p class="metric-value danger" id="m-sem">240.254</p>
+          <p class="metric-sub" id="m-sem-sub">47,9% — prioridade de captura</p>
         </div>
       </div>
       <!-- SEÇÃO INSIDER E ALCANÇABILIDADE -->
@@ -252,31 +261,34 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
           <div style="margin-bottom:14px">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
               <span style="font-size:12px;font-weight:600;color:var(--text-primary)">Telefone identificado na Insider</span>
-              <span style="font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">242.577</span>
+              <span style="font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">102.992</span>
             </div>
             <div style="display:flex;gap:8px;padding:8px 0">
               <div style="flex:1;background:var(--green-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
                 <p style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">WhatsApp opt-in</p>
                 <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--green);margin-bottom:1px">10.760</p>
-                <p style="font-size:11px;color:var(--green-mid)">4,4%</p>
+                <p style="font-size:11px;color:var(--green-mid)">10,4%</p>
               </div>
               <div style="flex:1;background:var(--red-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
                 <p style="font-size:10px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">WhatsApp opt-out</p>
                 <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--red);margin-bottom:1px">48.111</p>
-                <p style="font-size:11px;color:var(--red-mid)">19,8%</p>
+                <p style="font-size:11px;color:var(--red-mid)">46,7%</p>
               </div>
             </div>
             <div style="display:flex;gap:8px;padding-bottom:4px">
               <div style="flex:1;background:var(--green-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
                 <p style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">SMS opt-in</p>
                 <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--green);margin-bottom:1px">12.020</p>
-                <p style="font-size:11px;color:var(--green-mid)">5,0%</p>
+                <p style="font-size:11px;color:var(--green-mid)">11,7%</p>
               </div>
               <div style="flex:1;background:var(--red-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
                 <p style="font-size:10px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">SMS opt-out</p>
                 <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--red);margin-bottom:1px">47.502</p>
-                <p style="font-size:11px;color:var(--red-mid)">19,6%</p>
+                <p style="font-size:11px;color:var(--red-mid)">46,1%</p>
               </div>
+            </div>
+            <div style="background:var(--surface-alt);border-radius:var(--r-md);padding:8px 12px;margin-top:4px;text-align:center">
+              <p style="font-size:11px;color:var(--text-tertiary)">Sem dado de opt-in: <span style="font-weight:600;color:var(--text-secondary);font-family:'DM Mono',monospace">44.121</span> <span style="color:var(--text-tertiary)">(42,8%)</span></p>
             </div>
           </div>
 
@@ -284,20 +296,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
           <div style="border-top:1px solid var(--border);padding-top:12px">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
               <span style="font-size:12px;font-weight:600;color:var(--text-primary)">E-mail identificado na Insider</span>
-              <span style="font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">35.740</span>
+              <span style="font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--blue)">10.969</span>
             </div>
             <div style="display:flex;gap:8px;padding:8px 0">
               <div style="flex:1;background:var(--green-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
                 <p style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">E-mail opt-in</p>
-                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--green);margin-bottom:1px">3.307</p>
-                <p style="font-size:11px;color:var(--green-mid)">9,3%</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--green);margin-bottom:1px">3.224</p>
+                <p style="font-size:11px;color:var(--green-mid)">29,4%</p>
               </div>
               <div style="flex:1;background:var(--red-light);border-radius:var(--r-md);padding:8px 12px;text-align:center">
                 <p style="font-size:10px;font-weight:600;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px">E-mail opt-out</p>
-                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--red);margin-bottom:1px">6.626</p>
-                <p style="font-size:11px;color:var(--red-mid)">18,5%</p>
+                <p style="font-size:15px;font-weight:600;font-family:'DM Mono',monospace;color:var(--red);margin-bottom:1px">6.440</p>
+                <p style="font-size:11px;color:var(--red-mid)">58,7%</p>
               </div>
             </div>
+            <div style="background:var(--surface-alt);border-radius:var(--r-md);padding:8px 12px;margin-top:4px;text-align:center">
+              <p style="font-size:11px;color:var(--text-tertiary)">Sem dado de opt-in: <span style="font-weight:600;color:var(--text-secondary);font-family:'DM Mono',monospace">1.305</span> <span style="color:var(--text-tertiary)">(11,9%)</span></p>
+            </div>
+            <p style="font-size:11px;color:var(--text-tertiary);margin-top:8px">Base de e-mail excluída: 23.488 placeholders falsos como naotem@gmail.com</p>
           </div>
         </div>
         <div class="card" style="padding:16px 18px">
@@ -475,22 +491,45 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
       </div>
     </div>
 
-    <!-- ESTRATÉGIAS -->
+    <!-- ROTAS E SAZONALIDADE -->
     <div class="section">
-      <p class="section-label">Estratégias recomendadas</p>
-      <div class="grid-2">
-        <div class="card">
-          <p class="card-title">Ações de ativação</p>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-red">urgente</span>Capturar 34% sem contato</p><p class="strategy-desc">170k passageiros invisíveis. Ação no embarque/app para coleta de dado.</p></div>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-amber">alto impacto</span>Reativar ocasionais</p><p class="strategy-desc">89% fez 1 viagem. Oferta direcionada 30–60 dias após a viagem.</p></div>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-purple">fidelidade</span>Upgrade de frequentes</p><p class="strategy-desc">53k passageiros entre 2–9 viagens. Viva Fidelidade com meta de próxima viagem.</p></div>
-        </div>
-        <div class="card">
-          <p class="card-title">Rotas e sazonalidade</p>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-blue">rota</span>Aprofundar RJ ↔ SJC e Aparecida</p><p class="strategy-desc">Maior rota (87k). Aparecida tem componente religioso — ação em outubro.</p></div>
-          <div class="strategy-item"><p class="strategy-title"><span class="badge badge-green">sazonal</span>Campanhas pré-feriado</p><p class="strategy-desc">Semana Santa, Carnaval, Natal e Dia do Trabalho = janelas de +30% de volume.</p></div>
+      <p class="section-label">Rotas e sazonalidade</p>
+      <div class="card">
+        <p class="card-title">Próximos feriados e eventos por rota</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+
+          <div style="background:var(--surface-alt);border-radius:var(--r-md);padding:12px 14px">
+            <p style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Corredor SP — SJC · Taubaté · Aparecida</p>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">07/jun</span><span style="font-size:12px;color:var(--text-primary)">Corpus Christi — feriado nacional, pico histórico no Vale do Paraíba</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">08/set</span><span style="font-size:12px;color:var(--text-primary)">Aniversário de São José dos Campos — feriado municipal</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">12/out</span><span style="font-size:12px;color:var(--text-primary)">N. Sra. Aparecida — maior pico da rota, +40% vs média</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">Jan</span><span style="font-size:12px;color:var(--text-primary)">Temporada de verão — retorno de litoral via SJC e Taubaté</span></div>
+            </div>
+          </div>
+
+          <div style="background:var(--surface-alt);border-radius:var(--r-md);padding:12px 14px">
+            <p style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Corredor Baixada Santista — Santos · P. Grande · S. Vicente</p>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">Jan/Fev</span><span style="font-size:12px;color:var(--text-primary)">Verão — temporada de praia, maior volume do ano neste corredor</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">26/jan</span><span style="font-size:12px;color:var(--text-primary)">Aniversário de Santos — feriado municipal com eventos na cidade</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">Carnaval</span><span style="font-size:12px;color:var(--text-primary)">Blocos de rua em Santos — destino relevante no Carnaval paulista</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">Nov</span><span style="font-size:12px;color:var(--text-primary)">Festival gastronômico de Santos — evento turístico anual</span></div>
+            </div>
+          </div>
+
+          <div style="background:var(--surface-alt);border-radius:var(--r-md);padding:12px 14px">
+            <p style="font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Corredor MG — S. Lourenço · Varginha · Pouso Alegre · Lavras</p>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">Jul</span><span style="font-size:12px;color:var(--text-primary)">Férias de inverno — São Lourenço e estâncias com alta demanda termal</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">Jun/Jul</span><span style="font-size:12px;color:var(--text-primary)">Festival do Café de Varginha — maior evento da cidade</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">12/ago</span><span style="font-size:12px;color:var(--text-primary)">Aniversário de São Lourenço — feriado municipal</span></div>
+              <div style="display:flex;gap:8px;align-items:flex-start"><span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text-tertiary);min-width:48px;margin-top:1px">Set/Out</span><span style="font-size:12px;color:var(--text-primary)">Primavera — pico de turismo de saúde em Pouso Alegre e Lavras</span></div>
+            </div>
+          </div>
 
         </div>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-top:12px">Ativar base 7–10 dias antes de cada data · Aparecida e Corpus Christi são prioridade nacional</p>
       </div>
     </div>
   </div>
@@ -501,11 +540,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
     <!-- FILTRO TEMPO COMP -->
     <div class="time-filter">
       <span class="tf-label">Última viagem:</span>
-      <button class="tf-btn active" onclick="setFilter('all',this,'comp')">Todos</button>
+      <button class="tf-btn active" id="tf-comp-all" onclick="setFilter('all',this,'comp')">Todos</button>
       <button class="tf-btn" onclick="setFilter('0-3m',this,'comp')">0 a 3 meses</button>
       <button class="tf-btn" onclick="setFilter('4-7m',this,'comp')">4 a 7 meses</button>
       <button class="tf-btn" onclick="setFilter('8-12m',this,'comp')">8 a 12 meses</button>
       <button class="tf-btn" onclick="setFilter('+1ano',this,'comp')">+1 ano</button>
+      <button class="tf-btn tf-reset" id="tf-comp-reset" onclick="resetFilter('comp')" style="display:none;margin-left:8px;border-color:var(--border-strong);color:var(--text-tertiary)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Redefinir
+      </button>
     </div>
 
     <!-- MÉTRICAS COMP -->
@@ -528,9 +571,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
           <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Util</div>
           <div class="legend-item"><div class="legend-dot" style="background:#BA7517"></div>Rápido Federal</div>
         </div>
-        <div id="comp-rows-container">
-          <!-- Renderizado por JS -->
-        </div>
+        <div id="comp-rows-container"></div>
       </div>
     </div>
 
@@ -539,7 +580,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
       <p class="section-label">Prioridades de ataque</p>
       <div class="grid-2">
         <div class="priority-card p-red"><p class="priority-title"><span class="badge badge-red">1</span>Recuperar Guarulhos ↔ RJ</p><div class="opp-item"><p class="opp-name">38.165 viagens — Util tem 78,9%</p><p class="opp-desc">Passar de 21% para 40% = +7.300 viagens capturadas.</p></div></div>
-        <div class="priority-card p-red"><p class="priority-title"><span class="badge badge-red">2</span>Entrar em RJ ↔ Santos Dumont - MG</p><div class="opp-item"><p class="opp-name">3.968 viagens — Sampaio ausente</p><p class="opp-desc">Rota 100% Util + Rápido Federal. Destino em crescimento.</p></div></div>
+        <div class="priority-card p-red"><p class="priority-title"><span class="badge badge-red">2</span>Ampliar share em Praia Grande ↔ RJ</p><div class="opp-item"><p class="opp-name">15.514 viagens — Sampaio tem 52,5% nos últimos 3 meses mas cai a 42,9% no +1 ano</p><p class="opp-desc">Rota onde a Sampaio já opera com relevância. Campanha de retenção e reativação para evitar perda de share para a Util ao longo do tempo.</p></div></div>
         <div class="priority-card p-amber"><p class="priority-title"><span class="badge badge-amber">3</span>Disputar RJ ↔ Santos - SP</p><div class="opp-item"><p class="opp-name">87.522 viagens — quase empate (48,7% vs 51,3%)</p><p class="opp-desc">Maior rota disputada. Ganhar 3 pontos = ~2.600 viagens extras.</p></div></div>
         <div class="priority-card p-amber"><p class="priority-title"><span class="badge badge-amber">4</span>Investigar Barbacena - MG</p><div class="opp-item"><p class="opp-name">58.420 viagens — Sampaio tem 1,1%</p><p class="opp-desc">Alto volume, presença quase nula. Possível restrição operacional.</p></div></div>
       </div>
@@ -549,51 +590,182 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-prim
     <div class="section">
       <p class="section-label">Mapa de calor — origens mais utilizadas (Sampaio)</p>
       <div class="card">
-        <!-- Legenda do mapa de calor -->
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap">
           <span style="font-size:11px;color:var(--text-tertiary)">Volume de passageiros:</span>
-          <div style="display:flex;align-items:center;gap:4px">
-            <div style="width:14px;height:14px;border-radius:3px;background:#dbeafe"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">&lt; 5k</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:4px">
-            <div style="width:14px;height:14px;border-radius:3px;background:#93c5fd"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">5k–20k</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:4px">
-            <div style="width:14px;height:14px;border-radius:3px;background:#3b82f6"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">20k–50k</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:4px">
-            <div style="width:14px;height:14px;border-radius:3px;background:#1d4ed8"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">50k–100k</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:4px">
-            <div style="width:14px;height:14px;border-radius:3px;background:#1e3a8a"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">&gt; 100k</span>
-          </div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:14px;height:14px;border-radius:3px;background:#dbeafe"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">&lt; 5k</span></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:14px;height:14px;border-radius:3px;background:#93c5fd"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">5k–20k</span></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:14px;height:14px;border-radius:3px;background:#3b82f6"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">20k–50k</span></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:14px;height:14px;border-radius:3px;background:#1d4ed8"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">50k–100k</span></div>
+          <div style="display:flex;align-items:center;gap:4px"><div style="width:14px;height:14px;border-radius:3px;background:#1e3a8a"></div><span style="font-size:10px;color:var(--text-tertiary);font-family:'DM Mono',monospace">&gt; 100k</span></div>
         </div>
         <div class="heatmap-wrap">
           <table class="heatmap" id="heatmap-table">
-            <thead>
-              <tr>
-                <th>Cidade de Origem</th>
-                <th>UF</th>
-                <th>Passageiros</th>
-                <th>Distribuição</th>
-              </tr>
-            </thead>
+            <thead><tr><th>Cidade de Origem</th><th>UF</th><th>Passageiros</th><th>Distribuição</th></tr></thead>
             <tbody id="heatmap-body"></tbody>
           </table>
         </div>
-        <p style="font-size:11px;color:var(--text-tertiary);margin-top:10px">Origem = cidade de partida da primeira perna da viagem do passageiro. Top 20 origens exibidas.</p>
+        <p style="font-size:11px;color:var(--text-tertiary);margin-top:10px">Origem = cidade de partida da primeira perna da viagem. Top 20 origens exibidas.</p>
       </div>
     </div>
 
-    <!-- EXPANSÃO -->
+
+  </div>
+
+  <!-- ===== PAGE PLANO DE AÇÃO ===== -->
+  <div id="page-plano" class="page">
     <div class="section">
-      <p class="section-label">Rotas exclusivas da Util — oportunidades de expansão</p>
-      <div class="card">
-        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px">23 rotas onde a Util atua e a Sampaio não tem passageiros registrados</p>
-        <div class="opp-item"><p class="opp-name"><span class="badge badge-purple">3.721 viagens</span>RJ ↔ Santos Dumont - MG</p><p class="opp-desc">Maior oportunidade de entrada. Destino com perfil de saúde e turismo.</p></div>
-        <div class="opp-item"><p class="opp-name"><span class="badge badge-purple">1.002 viagens</span>Barra da Tijuca (Via Parque) ↔ Santos - SP</p><p class="opp-desc">Ponto de embarque na Barra que a Sampaio não cobre. Nicho de alto poder aquisitivo.</p></div>
-        <div class="opp-item"><p class="opp-name"><span class="badge badge-purple">555 viagens</span>RIO2 (Barra Olímpica) ↔ Santos - SP</p><p class="opp-desc">Junto com Via Parque = 1.557 viagens sem Sampaio na Barra.</p></div>
-        <div class="opp-item"><p class="opp-name"><span class="badge badge-gray">359 + 228 viagens</span>Pontos da Barra ↔ Praia Grande / Guarulhos</p><p class="opp-desc">Extensões de rotas que a Sampaio já opera, mas a partir de terminais diferentes.</p></div>
+      <p class="section-label">Plano de ação por segmento</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+
+        <!-- OCASIONAIS -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid #378ADD;border-radius:var(--r-lg);padding:20px;box-shadow:var(--sh-sm)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#378ADD;display:inline-block"></span>
+            <p style="font-size:15px;font-weight:600;color:var(--text-primary)">Ocasionais</p>
+          </div>
+          <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:18px">447.406 passageiros · 1 viagem</p>
+
+          <p style="font-size:10px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-family:'DM Mono',monospace">Estratégias</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#378ADD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Criação de cupom de ida e volta exclusivo para a Sampaio</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#378ADD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Criação de régua de comunicação voltada para aprimoramento dos serviços e melhor experiência durante toda a viagem</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#378ADD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Jornada na Insider para passageiros que não viajam há mais de 6 meses</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#378ADD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Criação de Landing Page própria da Sampaio com buscador para gerar maior visibilidade da marca</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#378ADD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Mapear festivais e eventos nas cidades com rotas que a Sampaio ataca</span>
+            </li>
+          </ul>
+
+          <div style="background:var(--blue-light);border-radius:var(--r-md);padding:12px 14px">
+            <p style="font-size:10px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-family:'DM Mono',monospace">Pendências</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--blue-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--blue)">Aprovação do cupom por parte da Leticia</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--blue-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--blue)">Criação da jornada dentro da Insider</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--blue-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--blue)">Criação de página perene sobre viações</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--blue-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--blue)">Análise com o time de inteligência para entender volume dos festivais e eventos</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- FREQUENTES -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid #7F77DD;border-radius:var(--r-lg);padding:20px;box-shadow:var(--sh-sm)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#7F77DD;display:inline-block"></span>
+            <p style="font-size:15px;font-weight:600;color:var(--text-primary)">Frequentes</p>
+          </div>
+          <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:18px">53.064 passageiros · 2–9 viagens</p>
+
+          <p style="font-size:10px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-family:'DM Mono',monospace">Estratégias</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#7F77DD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Criação de campanha para maior pontuação no Viva Fidelidade para quem viajou com a Sampaio dentro de um período específico</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#7F77DD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Bonificação de pontos no Viva para quem comprar com antecedência de 15 a 30 dias (ADVP)</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#7F77DD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Bonificação para os 53k que não são cadastrados no Viva, incentivo ao cadastro dentro de um período limitado</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#7F77DD;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Criação de Landing Page própria da Sampaio com buscador para gerar maior visibilidade da marca</span>
+            </li>
+          </ul>
+
+          <div style="background:#F3F2FE;border-radius:var(--r-md);padding:12px 14px">
+            <p style="font-size:10px;font-weight:600;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-family:'DM Mono',monospace">Pendências</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--purple-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--purple)">Aprovação das estratégias do Viva com a Bidinha</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--purple-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--purple)">Criação da jornada dentro da Insider</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--purple-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--purple)">Criação de página perene sobre viações</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- PENDULARES -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-top:3px solid #639922;border-radius:var(--r-lg);padding:20px;box-shadow:var(--sh-sm)">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <span style="width:10px;height:10px;border-radius:50%;background:#639922;display:inline-block"></span>
+            <p style="font-size:15px;font-weight:600;color:var(--text-primary)">Pendulares</p>
+          </div>
+          <p style="font-size:12px;color:var(--text-tertiary);margin-bottom:18px">1.280 passageiros · 10+ viagens</p>
+
+          <p style="font-size:10px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;font-family:'DM Mono',monospace">Estratégias</p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#639922;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Criação de campanha para maior pontuação no Viva Fidelidade para quem viajou com a Sampaio dentro de um período específico</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#639922;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Bonificação de pontos no Viva para quem comprar com antecedência de 15 a 30 dias (ADVP)</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#639922;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Bonificação para os 1.280 que não são cadastrados no Viva, incentivo ao cadastro dentro de um período limitado</span>
+            </li>
+            <li style="display:flex;gap:8px;align-items:flex-start">
+              <span style="width:5px;height:5px;border-radius:50%;background:#639922;flex-shrink:0;margin-top:5px"></span>
+              <span style="font-size:12px;color:var(--text-primary)">Criação de Landing Page própria da Sampaio com buscador para gerar maior visibilidade da marca</span>
+            </li>
+          </ul>
+
+          <div style="background:var(--green-light);border-radius:var(--r-md);padding:12px 14px">
+            <p style="font-size:10px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-family:'DM Mono',monospace">Pendências</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--green-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--green)">Aprovação das estratégias do Viva com a Bidinha</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--green-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--green)">Criação da jornada dentro da Insider</span>
+              </li>
+              <li style="display:flex;gap:8px;align-items:flex-start">
+                <span style="width:5px;height:5px;border-radius:50%;background:var(--green-mid);flex-shrink:0;margin-top:5px"></span>
+                <span style="font-size:12px;color:var(--green)">Criação de página perene sobre viações</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -643,34 +815,60 @@ const compDataByFilter = {
     {n:'RJ ↔ Santos Dumont - MG',st:'ausente',s:0,u:93.8,rf:6.0,t:3968},
   ],
   '0-3m': [
-    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.0,u:1.0,rf:0,t:9524},
-    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.1,u:0.9,rf:0,t:17508},
-    {n:'Aparecida ↔ Resende - RJ',st:'dominancia',s:95.0,u:5.0,rf:0,t:2250},
-    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:53.3,u:46.7,rf:0,t:13723},
-    {n:'Guarulhos ↔ RJ',st:'perda',s:35.1,u:64.9,rf:0,t:5529},
-    {n:'Praia Grande ↔ RJ',st:'desvantagem',s:54.1,u:45.9,rf:0,t:2652},
-    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.4,u:84.5,rf:13.9,t:7444},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.7,u:0.3,rf:0,t:31161},
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.7,u:0.3,rf:0,t:17626},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:49.9,u:50.1,rf:0,t:17551},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:0.7,u:89.1,rf:10.2,t:15571},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:29.2,u:70.8,rf:0,t:7207},
+    {n:'Resende ↔ São José dos Campos',st:'dominancia',s:97.2,u:2.8,rf:0,t:3840},
+    {n:'Praia Grande ↔ RJ',st:'equilibrio',s:52.5,u:47.5,rf:0,t:3241},
+    {n:'Resende ↔ Taubaté - SP',st:'dominancia',s:95.5,u:4.5,rf:0,t:2488},
+    {n:'Aparecida ↔ Resende - RJ',st:'dominancia',s:96.7,u:3.3,rf:0,t:2402},
+    {n:'Aparecida ↔ Volta Redonda - RJ',st:'dominancia',s:85.9,u:14.1,rf:0,t:1994},
+    {n:'SJC - SP ↔ Volta Redonda - RJ',st:'lideranca',s:65.4,u:34.6,rf:0,t:1736},
+    {n:'RJ ↔ Santos Dumont - MG',st:'ausente',s:0,u:95.4,rf:4.6,t:1395},
+    {n:'RJ ↔ São Vicente - SP',st:'equilibrio',s:53.2,u:46.8,rf:0,t:1339},
+    {n:'Guarulhos ↔ Resende - RJ',st:'equilibrio',s:59.4,u:40.6,rf:0,t:1304},
   ],
   '4-7m': [
-    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.5,u:0.5,rf:0,t:11981},
-    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.5,u:0.5,rf:0,t:23629},
-    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:50.6,u:49.4,rf:0,t:20434},
-    {n:'Guarulhos ↔ RJ',st:'perda',s:34.1,u:65.9,rf:0,t:8544},
-    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.5,u:85.2,rf:12.2,t:11303},
-    {n:'Praia Grande ↔ RJ',st:'desvantagem',s:53.4,u:46.6,rf:0,t:4099},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.6,u:0.4,rf:0,t:31843},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:49.1,u:50.9,rf:0,t:23402},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.2,u:88.1,rf:10.8,t:17056},
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.6,u:0.4,rf:0,t:16115},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:31.6,u:68.4,rf:0,t:9625},
+    {n:'Praia Grande ↔ RJ',st:'equilibrio',s:51.8,u:48.2,rf:0,t:4625},
+    {n:'Resende ↔ São José dos Campos',st:'dominancia',s:93.9,u:6.1,rf:0,t:3908},
+    {n:'Aparecida ↔ Resende - RJ',st:'dominancia',s:95.6,u:4.4,rf:0,t:3038},
+    {n:'Guarulhos ↔ Resende - RJ',st:'desvantagem',s:49.6,u:50.4,rf:0,t:2299},
+    {n:'Aparecida ↔ Volta Redonda - RJ',st:'lideranca',s:81.1,u:18.9,rf:0,t:2100},
+    {n:'RJ ↔ São Vicente - SP',st:'equilibrio',s:55.3,u:44.7,rf:0,t:1902},
+    {n:'RJ ↔ Santos Dumont - MG',st:'ausente',s:0,u:93.4,rf:6.6,t:1009},
   ],
   '8-12m': [
-    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.0,u:1.0,rf:0,t:12885},
-    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:98.5,u:1.5,rf:0,t:23130},
-    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:49.9,u:50.1,rf:0,t:18737},
-    {n:'Guarulhos ↔ RJ',st:'perda',s:25.1,u:74.9,rf:0,t:8075},
-    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.5,u:86.3,rf:12.0,t:10510},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:98.7,u:1.3,rf:0,t:27791},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:49.3,u:50.7,rf:0,t:21074},
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.2,u:0.8,rf:0,t:15527},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.4,u:84.4,rf:14.3,t:13752},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:22.9,u:77.1,rf:0,t:9063},
+    {n:'Praia Grande ↔ RJ',st:'desvantagem',s:44.6,u:55.4,rf:0,t:3728},
+    {n:'Aparecida ↔ Resende - RJ',st:'dominancia',s:96.5,u:3.5,rf:0,t:3350},
+    {n:'Aparecida ↔ Volta Redonda - RJ',st:'lideranca',s:83.4,u:16.6,rf:0,t:2363},
+    {n:'Guarulhos ↔ Resende - RJ',st:'desvantagem',s:40.2,u:59.8,rf:0,t:2119},
+    {n:'RJ ↔ São Vicente - SP',st:'equilibrio',s:50.3,u:49.7,rf:0,t:1686},
+    {n:'RJ ↔ Santos Dumont - MG',st:'ausente',s:0,u:92.5,rf:7.5,t:708},
   ],
   '+1ano': [
-    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:98.9,u:1.1,rf:0,t:24345},
-    {n:'RJ ↔ Santos - SP',st:'perda',s:38.5,u:61.5,rf:0,t:34628},
-    {n:'Guarulhos ↔ RJ',st:'perda',s:6.8,u:93.2,rf:0,t:16017},
-    {n:'Barbacena - MG ↔ RJ',st:'perda',s:0.7,u:89.5,rf:9.8,t:17163},
+    {n:'RJ ↔ São José dos Campos - SP',st:'dominancia',s:99.0,u:1.0,rf:0,t:26122},
+    {n:'RJ ↔ Santos - SP',st:'desvantagem',s:47.0,u:53.0,rf:0,t:25495},
+    {n:'RJ ↔ Taubaté - SP',st:'dominancia',s:99.1,u:0.9,rf:0,t:12295},
+    {n:'Guarulhos ↔ RJ',st:'perda',s:6.7,u:93.3,rf:0,t:12270},
+    {n:'Barbacena - MG ↔ RJ',st:'perda',s:1.1,u:83.6,rf:13.9,t:12041},
+    {n:'Praia Grande ↔ RJ',st:'desvantagem',s:42.9,u:57.1,rf:0,t:3920},
+    {n:'Resende ↔ São José dos Campos',st:'dominancia',s:92.5,u:7.5,rf:0,t:3131},
+    {n:'Aparecida ↔ Resende - RJ',st:'dominancia',s:95.9,u:4.1,rf:0,t:2389},
+    {n:'RJ ↔ São Vicente - SP',st:'desvantagem',s:46.2,u:53.8,rf:0,t:2182},
+    {n:'Guarulhos ↔ Resende - RJ',st:'perda',s:9.7,u:90.3,rf:0,t:2164},
+    {n:'RJ ↔ Santos Dumont - MG',st:'ausente',s:0,u:92.6,rf:6.3,t:856},
   ]
 };
 
@@ -764,17 +962,34 @@ function buildCompRows(filter){
 // ===== FILTER =====
 function setFilter(val, btn, page){
   const prefix = page==='main' ? '#page-main' : '#page-competitivo';
-  document.querySelectorAll(prefix+' .tf-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll(prefix+' .tf-btn:not(.tf-reset)').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+
+  const resetBtn = document.getElementById('tf-'+page+'-reset');
+  if(val === 'all'){
+    if(resetBtn) resetBtn.style.display='none';
+  } else {
+    if(resetBtn) resetBtn.style.display='inline-flex';
+  }
 
   if(page==='main'){
     currentFilterMain = val;
     updateMainMetrics(val);
-    if(currentRota!==null) selectRota(currentRota);
+    if(currentRota!==null){
+      // Forçar re-render da rota com novo filtro sem toggle
+      const savedRota = currentRota;
+      currentRota = null;
+      selectRota(savedRota);
+    }
   } else {
     currentFilterComp = val;
     buildCompRows(val);
   }
+}
+
+function resetFilter(page){
+  const allBtn = document.getElementById('tf-'+page+'-all');
+  setFilter('all', allBtn, page);
 }
 
 function updateMainMetrics(f){
@@ -807,6 +1022,14 @@ function updateMainMetrics(f){
 
 // ===== ROTA CLICK =====
 function selectRota(id){
+  // Deselecionar se clicar na mesma rota já selecionada
+  if(currentRota === id){
+    document.querySelectorAll('.rota-clickable').forEach(r=>r.classList.remove('selected'));
+    document.getElementById('seg-empty').style.display='block';
+    document.getElementById('seg-content').style.display='none';
+    currentRota = null;
+    return;
+  }
   currentRota = id;
   const f = currentFilterMain;
   const d = rotaData[id][f] || rotaData[id]['all'];
